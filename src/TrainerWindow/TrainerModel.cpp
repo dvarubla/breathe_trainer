@@ -47,7 +47,7 @@ namespace breathe_trainer{
         _listenerPtr = ptr;
     }
 
-    TrainerModel::TrainerModel(const TrainProfile &profile): _profile(profile), _threadStarted(false), _threadWorking(false) {
+    TrainerModel::TrainerModel(): _threadStarted(false), _threadWorking(false) {
     }
 
     void TrainerModel::thread_func() {
@@ -138,5 +138,9 @@ namespace breathe_trainer{
 
     bool TrainerModel::isStarted() {
         return _threadWorking;
+    }
+
+    void TrainerModel::setProfile(const TrainProfile &profile) {
+        _profile = profile;
     }
 }

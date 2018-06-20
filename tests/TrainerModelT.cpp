@@ -22,7 +22,8 @@ public:
         profile.exhalationTime = EXH_TIME;
         profile.pauseTimeAfterInhalation = PAUSE_AFTER_INH;
         profile.pauseTimeAfterExhalation = PAUSE_AFTER_EXH;
-        model = make_shared<TrainerModel>(profile);
+        model = make_shared<TrainerModel>();
+        model->setProfile(profile);
         mock = make_shared<testing::NiceMock<TrainerModelListenerMock>>();
         model->setModelListener(mock);
     }

@@ -39,7 +39,10 @@ namespace breathe_trainer {
         void notifyListenerState();
         void setPhase();
     public:
-        explicit TrainerModel(const TrainProfile &profile);
+        explicit TrainerModel();
+
+        void setProfile(const TrainProfile &profile);
+
         ~TrainerModel();
         void start() override;
         void stop() override;
