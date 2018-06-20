@@ -43,7 +43,7 @@ namespace breathe_trainer{
         >(_curPhaseTotalSec - _curPhaseCurSec);
     }
 
-    void TrainerModel::setModelListener(const ITMListenerWPtr &ptr) {
+    void TrainerModel::setModelListener(const ITrainMListWPtr &ptr) {
         _listenerPtr = ptr;
     }
 

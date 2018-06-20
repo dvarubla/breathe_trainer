@@ -3,7 +3,7 @@
 #include <thread>
 #include <atomic>
 #include "ITrainerModel.h"
-#include "TrainProfile.h"
+#include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
     class TrainerModel: public ITrainerModel{
@@ -16,7 +16,7 @@ namespace breathe_trainer {
         };
         const TimeSec THREAD_INTERVAL_MS = 100;
         const uint_fast8_t STR_PART_LEN = 2;
-        ITMListenerWPtr _listenerPtr;
+        ITrainMListWPtr _listenerPtr;
         TrainProfile _profile;
 
         std::chrono::system_clock::time_point _startTime;
@@ -56,6 +56,6 @@ namespace breathe_trainer {
 
         double getAmount() override;
 
-        void setModelListener(const ITMListenerWPtr &ptr) override;
+        void setModelListener(const ITrainMListWPtr &ptr) override;
     };
 }

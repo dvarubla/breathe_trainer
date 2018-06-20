@@ -57,11 +57,18 @@ namespace breathe_trainer {
         _listener.lock()->onStopPressed();
     }
 
-    void TrainerWindow::setListener(const ITWinListenerWPtr &listener) {
+    void TrainerWindow::setListener(const ITrainWinListWPtr &listener) {
         _listener = listener;
     }
 
     void TrainerWindow::setStopButtonEnable(bool status) {
         ui->stopButton->setEnabled(status);
+    }
+
+    void TrainerWindow::addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) {
+        ui->profilesList->clear();
+        for(auto it = begin; it != end; ++it){
+            ui->profilesList->addItem(QString::fromStdString(*it));
+        }
     }
 }

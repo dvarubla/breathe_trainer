@@ -9,7 +9,7 @@ namespace breathe_trainer {
     class TrainerWindow : public QMainWindow, public ITrainerWindow {
     Q_OBJECT
     private:
-        ITWinListenerWPtr _listener;
+        ITrainWinListWPtr _listener;
         Q_INVOKABLE void _setTotalTime(const std::string &str);
 
         Q_INVOKABLE void _setPhaseTime(const std::string &str);
@@ -22,7 +22,7 @@ namespace breathe_trainer {
         void startButtonClicked();
         void stopButtonClicked();
     public:
-        void setListener(const ITWinListenerWPtr &listener) override;
+        void setListener(const ITrainWinListWPtr &listener) override;
 
         explicit TrainerWindow();
 
@@ -34,10 +34,12 @@ namespace breathe_trainer {
 
         void setStopButtonEnable(bool status) override;
 
-        ~TrainerWindow();
+        ~TrainerWindow() override;
         void showWindow() override;
 
         void setAmountColor(double amount, uint_fast32_t color) override;
+
+        void addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) override;
 
     private:
         Ui::TrainerWindow *ui;

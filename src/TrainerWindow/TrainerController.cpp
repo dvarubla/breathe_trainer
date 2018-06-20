@@ -2,13 +2,14 @@
 #include "TrainerController.h"
 
 namespace breathe_trainer{
-    TrainerController::TrainerController(const ITMPtr &model, const ITWPtr &window) :_model(model), _window(window) {
+    TrainerController::TrainerController(const ITrainMPtr &trainModel, const ITrainWinPtr &window, const ITrainProfMPtr &trainProfModel)
+            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window) {
     }
 
     void TrainerController::onStateChanged() {
-        _window->setTotalTime(_model->getTotalTime());
-        _window->setPhaseTime(_model->getPhaseTime());
-        switch(_model->getPhase()){
+        _window->setTotalTime(_trainModel->getTotalTime());
+        _window->setPhaseTime(_trainModel->getPhaseTime());
+        switch(_trainModel->getPhase()){
             case Phase::INHALATION:
                 _window->setPhase("Вдох");
                 break;
@@ -24,11 +25,12 @@ namespace breathe_trainer{
     void TrainerController::init() {
         clearWindow();
         _window->setStopButtonEnable(false);
+        _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
         _window->showWindow();
     }
 
     void TrainerController::onProgressChanged() {
-        auto amount = _model->getAmount();
+        auto amount = _trainModel->getAmount();
         uint_fast32_t color;
         if(amount < 1. / NUM_INHALE_COLORS){
             color = inhaleColors[0];
@@ -37,7 +39,7 @@ namespace breathe_trainer{
         } else {
             color = inhaleColors[2];
         }
-        if(_model->getPhase() == Phase::INHALATION) {
+        if(_trainModel->getPhase() == Phase::INHALATION) {
             _window->setAmountColor(amount, color);
         } else {
             _window->setAmountColor(1 - amount, color);
@@ -46,15 +48,15 @@ namespace breathe_trainer{
 
     void TrainerController::onStartPressed() {
         _window->setStopButtonEnable(true);
-        if(_model->isStarted()) {
-            _model->stop();
+        if(_trainModel->isStarted()) {
+            _trainModel->stop();
         }
-        _model->start();
+        _trainModel->start();
     }
 
     void TrainerController::onStopPressed() {
         _window->setStopButtonEnable(false);
-        _model->stop();
+        _trainModel->stop();
         _window->setPhase("");
         _window->setPhaseTime("00:00:00");
         _window->setAmountColor(0, 0);

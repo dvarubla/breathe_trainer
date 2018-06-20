@@ -9,6 +9,6 @@ namespace breathe_trainer {
         virtual void onProgressChanged() = 0;
     };
 
-    typedef std::shared_ptr<ITrainerModelListener> ITMListenerPtr;
-    typedef std::weak_ptr<ITrainerModelListener> ITMListenerWPtr;
+    typedef std::shared_ptr<ITrainerModelListener> ITrainMListPtr;
+    typedef std::weak_ptr<ITrainerModelListener> ITrainMListWPtr;
 }

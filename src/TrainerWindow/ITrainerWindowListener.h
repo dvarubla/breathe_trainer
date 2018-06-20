@@ -6,6 +6,6 @@ namespace breathe_trainer {
         virtual void onStartPressed() = 0;
         virtual void onStopPressed() = 0;
     };
-    typedef std::shared_ptr<ITrainerWindowListener> ITWinListenerPtr;
-    typedef std::weak_ptr<ITrainerWindowListener> ITWinListenerWPtr;
+    typedef std::shared_ptr<ITrainerWindowListener> ITrainWinListPtr;
+    typedef std::weak_ptr<ITrainerWindowListener> ITrainWinListWPtr;
 }

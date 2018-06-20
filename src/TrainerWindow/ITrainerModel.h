@@ -18,9 +18,9 @@ namespace breathe_trainer {
         virtual Phase getPhase() = 0;
         virtual TimeStr getPhaseTime() = 0;
         virtual double getAmount() = 0;
-        virtual void setModelListener(const ITMListenerWPtr &ptr) = 0;
+        virtual void setModelListener(const ITrainMListWPtr &ptr) = 0;
     };
 
-    typedef std::shared_ptr<ITrainerModel> ITMPtr;
+    typedef std::shared_ptr<ITrainerModel> ITrainMPtr;
 }
 

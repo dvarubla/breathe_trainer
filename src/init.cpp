@@ -1,4 +1,5 @@
 #include <iostream>
+#include <TrainProfiles/TrainProfilesModel.h>
 #include "init.h"
 #include "TrainerWindow/TrainerModel.h"
 #include "TrainerWindow/TrainerController.h"
@@ -9,12 +10,23 @@ namespace breathe_trainer {
         qRegisterMetaType<std::string>("std::string");
         qRegisterMetaType<uint_fast32_t>("uint_fast32_t");
 
+        QFont font("Arial");
+        font.setStyleHint(QFont::SansSerif);
+        QApplication::setFont(font);
+
+        std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
+                {{5, 5, 5, 5}, "Начальный"},
+                {{6, 6, 6, 6}, "Продвинутый"}
+        };
+
+        auto trainProfModel = std::make_shared<TrainProfilesModel>(profiles);
+
         TrainProfile profile = {5, 5, 5, 5};
-        auto model = std::make_shared<TrainerModel>();
-        model->setProfile(profile);
+        auto trainerModel = std::make_shared<TrainerModel>();
+        trainerModel->setProfile(profile);
         auto win = std::make_shared<TrainerWindow>();
-        auto ctrl = std::make_shared<TrainerController>(model, win);
-        model->setModelListener(ctrl);
+        auto ctrl = std::make_shared<TrainerController>(trainerModel, win, trainProfModel);
+        trainerModel->setModelListener(ctrl);
         win->setListener(ctrl);
         ctrl->init();
         return app.exec();
