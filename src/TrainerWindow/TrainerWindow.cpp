@@ -1,9 +1,12 @@
 #include "TrainerWindow.h"
+#include "ITrainerModelListener.h"
 
 namespace breathe_trainer {
 
     TrainerWindow::TrainerWindow() : QMainWindow(nullptr), ui(new Ui::TrainerWindow) {
         ui->setupUi(this);
+        connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
+        connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
     }
 
     void TrainerWindow::showWindow() {
@@ -44,5 +47,21 @@ namespace breathe_trainer {
 
     void TrainerWindow::_setAmountColor(double amount, uint_fast32_t color) {
         ui->timeMeter->setAmountColor(amount, color);
+    }
+
+    void TrainerWindow::startButtonClicked() {
+        _listener.lock()->onStartPressed();
+    }
+
+    void TrainerWindow::stopButtonClicked() {
+        _listener.lock()->onStopPressed();
+    }
+
+    void TrainerWindow::setListener(const ITWinListenerWPtr &listener) {
+        _listener = listener;
+    }
+
+    void TrainerWindow::setStopButtonEnable(bool status) {
+        ui->stopButton->setEnabled(status);
     }
 }

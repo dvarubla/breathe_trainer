@@ -22,8 +22,9 @@ namespace breathe_trainer{
     }
 
     void TrainerController::init() {
+        clearWindow();
+        _window->setStopButtonEnable(false);
         _window->showWindow();
-        _model->start();
     }
 
     void TrainerController::onProgressChanged() {
@@ -41,5 +42,21 @@ namespace breathe_trainer{
         } else {
             _window->setAmountColor(1 - amount, color);
         }
+    }
+
+    void TrainerController::onStartPressed() {
+        _window->setStopButtonEnable(true);
+        _model->start();
+    }
+
+    void TrainerController::onStopPressed() {
+        _window->setStopButtonEnable(false);
+        _model->stop();
+    }
+
+    void TrainerController::clearWindow() {
+        _window->setPhase("");
+        _window->setTotalTime("00:00:00");
+        _window->setPhaseTime("00:00:00");
     }
 }

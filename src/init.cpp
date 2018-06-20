@@ -14,6 +14,7 @@ namespace breathe_trainer {
         auto win = std::make_shared<TrainerWindow>();
         auto ctrl = std::make_shared<TrainerController>(model, win);
         model->setModelListener(ctrl);
+        win->setListener(ctrl);
         ctrl->init();
         return app.exec();
     }

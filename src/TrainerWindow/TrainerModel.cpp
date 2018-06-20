@@ -14,6 +14,7 @@ namespace breathe_trainer{
 
     void TrainerModel::stop() {
         _threadWorking = false;
+        _timerThread.join();
     }
 
     TimeStr TrainerModel::getTotalTime() {
@@ -65,8 +66,10 @@ namespace breathe_trainer{
 
     TrainerModel::~TrainerModel() {
         if(_threadStarted) {
-            _threadWorking = false;
-            _timerThread.join();
+            if(_timerThread.joinable()) {
+                _threadWorking = false;
+                _timerThread.join();
+            }
         }
     }
 
