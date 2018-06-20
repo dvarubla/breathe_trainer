@@ -7,7 +7,17 @@
 namespace breathe_trainer {
     class TrainerWindow : public QMainWindow, public ITrainerWindow {
     Q_OBJECT
+    private:
+        Q_INVOKABLE void _setTotalTime(const std::string &str);
+
+        Q_INVOKABLE void _setPhaseTime(const std::string &str);
+
+        Q_INVOKABLE void _setPhase(const std::string &str);
+
+        Q_INVOKABLE void _setAmountColor(double amount, uint_fast32_t color);
+
     public:
+
         explicit TrainerWindow();
 
         void setTotalTime(const std::string &str) override;
