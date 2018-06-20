@@ -26,21 +26,21 @@
       <item>
        <widget class="QLabel" name="totalTime">
         <property name="text">
-         <string/>
+         <string>Total Time</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="phase">
         <property name="text">
-         <string/>
+         <string>Phase</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="phaseTime">
         <property name="text">
-         <string/>
+         <string>Phase Time</string>
         </property>
        </widget>
       </item>
