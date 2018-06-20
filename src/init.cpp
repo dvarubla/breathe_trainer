@@ -1,8 +1,8 @@
 #include <iostream>
 #include "init.h"
-#include "TrainerModel.h"
-#include "TrainerController.h"
-#include "TrainerWindow.h"
+#include "TrainerWindow/TrainerModel.h"
+#include "TrainerWindow/TrainerController.h"
+#include "TrainerWindow/TrainerWindow.h"
 
 namespace breathe_trainer {
     int run(const QApplication &app) {

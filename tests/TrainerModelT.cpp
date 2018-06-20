@@ -1,5 +1,5 @@
 #include <TrainerModelListenerMock.h>
-#include <TrainerModel.h>
+#include <TrainerWindow/TrainerModel.h>
 
 using breathe_trainer::TrainerModel;
 using breathe_trainer::TrainProfile;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ITrainerModelListener.h>
+#include <TrainerWindow/ITrainerModelListener.h>
 #include <gmock/gmock.h>
 
 using breathe_trainer::ITrainerModelListener;
