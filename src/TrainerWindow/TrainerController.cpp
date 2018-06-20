@@ -46,12 +46,18 @@ namespace breathe_trainer{
 
     void TrainerController::onStartPressed() {
         _window->setStopButtonEnable(true);
+        if(_model->isStarted()) {
+            _model->stop();
+        }
         _model->start();
     }
 
     void TrainerController::onStopPressed() {
         _window->setStopButtonEnable(false);
         _model->stop();
+        _window->setPhase("");
+        _window->setPhaseTime("00:00:00");
+        _window->setAmountColor(0, 0);
     }
 
     void TrainerController::clearWindow() {

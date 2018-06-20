@@ -43,6 +43,13 @@ struct BaseListenerStruct{
     std::atomic_bool working = true;
 };
 
+TEST_F(TrainerModelTest, Started){
+    EXPECT_FALSE(model->isStarted());
+    model->start();
+    EXPECT_TRUE(model->isStarted());
+    model->stop();
+}
+
 TEST_F(TrainerModelTest, TotalTime){
     struct : public BaseListenerStruct{
         void onStateChanged(){

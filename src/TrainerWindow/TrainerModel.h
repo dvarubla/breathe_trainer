@@ -43,6 +43,7 @@ namespace breathe_trainer {
         ~TrainerModel();
         void start() override;
         void stop() override;
+        bool isStarted() override;
 
         TimeStr getTotalTime() override;
 

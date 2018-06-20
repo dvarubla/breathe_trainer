@@ -15,7 +15,7 @@ namespace breathe_trainer{
         painter.drawRect(0, 0, w, h);
     }
 
-    TimeMeter::TimeMeter(QWidget *parent): QWidget(parent), _amount(1), _color(BG_COLOR) {
+    TimeMeter::TimeMeter(QWidget *parent): QWidget(parent), _amount(0), _color(BG_COLOR) {
 
     }
 
