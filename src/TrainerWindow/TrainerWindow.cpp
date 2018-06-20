@@ -70,5 +70,10 @@ namespace breathe_trainer {
         for(auto it = begin; it != end; ++it){
             ui->profilesList->addItem(QString::fromStdString(*it));
         }
+        ui->profilesList->item(0)->setSelected(true);
+    }
+
+    std::string TrainerWindow::getSelectedProfileName() {
+        return ui->profilesList->selectedItems().first()->text().toStdString();
     }
 }

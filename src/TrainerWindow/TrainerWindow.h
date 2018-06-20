@@ -41,6 +41,8 @@ namespace breathe_trainer {
 
         void addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) override;
 
+        std::string getSelectedProfileName() override;
+
     private:
         Ui::TrainerWindow *ui;
     };

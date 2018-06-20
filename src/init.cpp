@@ -16,14 +16,13 @@ namespace breathe_trainer {
 
         std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
                 {{5, 5, 5, 5}, "Начальный"},
-                {{6, 6, 6, 6}, "Продвинутый"}
+                {{6, 6, 6, 6}, "Продвинутый"},
+                {{10, 10, 10, 10}, "Водолаз"}
         };
 
         auto trainProfModel = std::make_shared<TrainProfilesModel>(profiles);
 
-        TrainProfile profile = {5, 5, 5, 5};
         auto trainerModel = std::make_shared<TrainerModel>();
-        trainerModel->setProfile(profile);
         auto win = std::make_shared<TrainerWindow>();
         auto ctrl = std::make_shared<TrainerController>(trainerModel, win, trainProfModel);
         trainerModel->setModelListener(ctrl);

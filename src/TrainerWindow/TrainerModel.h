@@ -3,7 +3,6 @@
 #include <thread>
 #include <atomic>
 #include "ITrainerModel.h"
-#include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
     class TrainerModel: public ITrainerModel{

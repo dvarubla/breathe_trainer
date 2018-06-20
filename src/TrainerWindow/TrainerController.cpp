@@ -51,6 +51,7 @@ namespace breathe_trainer{
         if(_trainModel->isStarted()) {
             _trainModel->stop();
         }
+        _trainModel->setProfile(_trainProfModel->getProfileByName(_window->getSelectedProfileName()));
         _trainModel->start();
     }
 

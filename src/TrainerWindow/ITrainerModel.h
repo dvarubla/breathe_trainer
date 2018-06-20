@@ -2,6 +2,7 @@
 
 #include "TrainerCommon.h"
 #include "ITrainerModelListener.h"
+#include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
     enum class Phase{
@@ -19,6 +20,7 @@ namespace breathe_trainer {
         virtual TimeStr getPhaseTime() = 0;
         virtual double getAmount() = 0;
         virtual void setModelListener(const ITrainMListWPtr &ptr) = 0;
+        virtual void setProfile(const TrainProfile &profile) = 0;
     };
 
     typedef std::shared_ptr<ITrainerModel> ITrainMPtr;
