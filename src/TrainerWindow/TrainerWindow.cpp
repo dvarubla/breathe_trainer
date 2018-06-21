@@ -7,6 +7,7 @@ namespace breathe_trainer {
         ui->setupUi(this);
         connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
         connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
+        connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     }
 
     void TrainerWindow::showWindow() {
@@ -75,5 +76,9 @@ namespace breathe_trainer {
 
     std::string TrainerWindow::getSelectedProfileName() {
         return ui->profilesList->selectedItems().first()->text().toStdString();
+    }
+
+    void TrainerWindow::editButtonClicked() {
+        _listener.lock()->onEditPressed();
     }
 }

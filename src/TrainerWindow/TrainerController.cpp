@@ -2,8 +2,13 @@
 #include "TrainerController.h"
 
 namespace breathe_trainer{
-    TrainerController::TrainerController(const ITrainMPtr &trainModel, const ITrainWinPtr &window, const ITrainProfMPtr &trainProfModel)
-            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window) {
+    TrainerController::TrainerController(
+            const ITrainMPtr &trainModel,
+            const ITrainWinPtr &window,
+            const ITrainProfMPtr &trainProfModel,
+            const ISettCtrlPtr &settingsCtrl
+    )
+            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window), _settingsCtrl(settingsCtrl) {
     }
 
     void TrainerController::onStateChanged() {
@@ -67,5 +72,9 @@ namespace breathe_trainer{
         _window->setPhase("");
         _window->setTotalTime("00:00:00");
         _window->setPhaseTime("00:00:00");
+    }
+
+    void TrainerController::onEditPressed() {
+        _settingsCtrl->show();
     }
 }

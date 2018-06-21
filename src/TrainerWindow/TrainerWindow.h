@@ -21,6 +21,7 @@ namespace breathe_trainer {
     public slots:
         void startButtonClicked();
         void stopButtonClicked();
+        void editButtonClicked();
     public:
         void setListener(const ITrainWinListWPtr &listener) override;
 
