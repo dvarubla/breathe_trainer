@@ -17,4 +17,11 @@ namespace breathe_trainer{
     void SettingsWindow::addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) {
         _profListFrag.setProfiles(begin, end);
     }
+
+    void SettingsWindow::setFieldStrings(const ProfileStrs &strs) {
+        ui->inhaleEdit->setText(QString::fromStdString(strs.inhalationTime));
+        ui->exhaleEdit->setText(QString::fromStdString(strs.exhalationTime));
+        ui->pauseInhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterInhalation));
+        ui->pauseExhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterExhalation));
+    }
 }

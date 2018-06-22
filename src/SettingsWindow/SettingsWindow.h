@@ -19,6 +19,8 @@ namespace breathe_trainer {
 
         void addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) override;
 
+        void setFieldStrings(const ProfileStrs &strs);
+
     private:
         Ui::SettingsWindow *ui;
     };

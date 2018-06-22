@@ -9,6 +9,7 @@ namespace breathe_trainer {
     private:
         ISettWinPtr _settingsWin;
         ITrainProfMPtr _trainProfModel;
+        ProfileStrs formProfileStrs(const TrainProfile &profile);
     public:
         explicit SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMPtr &trainProfModel);
 
