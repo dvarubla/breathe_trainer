@@ -25,6 +25,11 @@ TEST_F(TrainProfilesModelTest, ReadName){
     EXPECT_EQ(*(std::next(model->profileNamesBegin())), "pr2");
 }
 
+TEST_F(TrainProfilesModelTest, DeleteName){
+    model->deleteProfile("pr1");
+    EXPECT_EQ(*(model->profileNamesBegin()), "pr2");
+}
+
 TEST_F(TrainProfilesModelTest, ReadProfiles){
     EXPECT_EQ(model->getProfileByName("pr2").inhalationTime, 10);
 }
@@ -32,7 +37,14 @@ TEST_F(TrainProfilesModelTest, ReadProfiles){
 TEST_F(TrainProfilesModelTest, ChangeProfileThanRead){
     TrainProfile t = {};
     t.inhalationTime = 7;
-    model->setProfile("pr2", t);
+    model->setProfile("pr2", t, "pr2");
     EXPECT_EQ(model->getProfileByName("pr2").inhalationTime, 7);
+}
+
+TEST_F(TrainProfilesModelTest, ChangeProfileNameThanRead){
+    TrainProfile t = {};
+    t.inhalationTime = 7;
+    model->setProfile("pr3", t, "pr2");
+    EXPECT_EQ(model->getProfileByName("pr3").inhalationTime, 7);
 }
 

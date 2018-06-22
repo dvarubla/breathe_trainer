@@ -14,7 +14,7 @@ namespace breathe_trainer {
         ProfileListFragment _profListFrag;
         ISettWinListWPtr _settingsWinListener;
     public slots:
-        void onCurrentRowChanged(int row);
+        void onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev);
     public:
         explicit SettingsWindow(QWidget *parent);
 
@@ -27,6 +27,8 @@ namespace breathe_trainer {
         void setFieldStrings(const ProfileStrs &strs) override;
 
         void setSettingsWindowListener(const ISettWinListWPtr &settingsWinListener);
+
+        void setProfile(int index, const std::string &prof) override;
 
     private:
         Ui::SettingsWindow *ui;

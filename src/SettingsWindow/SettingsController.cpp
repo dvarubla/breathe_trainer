@@ -1,8 +1,9 @@
+#include <TrainProfiles/ITrainProfilesModelEdit.h>
 #include "SettingsController.h"
 
 namespace breathe_trainer{
 
-    SettingsController::SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMPtr &trainProfModel) :
+    SettingsController::SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMEditPtr &trainProfModel) :
             _settingsWin(settingsWin), _trainProfModel(trainProfModel){
     }
 
@@ -23,7 +24,17 @@ namespace breathe_trainer{
         };
     }
 
-    void SettingsController::onPositionChanged(const std::string &str) {
-        _settingsWin->setFieldStrings(formProfileStrs(str, _trainProfModel->getProfileByName(str)));
+    void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) {
+        TrainProfile prof = {
+                std::stoul(profileStrs.inhalationTime),
+                std::stoul(profileStrs.pauseTimeAfterInhalation),
+                std::stoul(profileStrs.exhalationTime),
+                std::stoul(profileStrs.pauseTimeAfterExhalation),
+        };
+        if(oldName != profileStrs.name){
+            _settingsWin->setProfile(index, profileStrs.name);
+        }
+        _trainProfModel->setProfile(profileStrs.name, prof, oldName);
+        _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
     }
 }

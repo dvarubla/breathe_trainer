@@ -3,6 +3,7 @@
 #include <TrainerCommon.h>
 #include <list>
 #include <map>
+#include <unordered_map>
 
 namespace breathe_trainer {
     struct TrainProfile {
@@ -11,7 +12,10 @@ namespace breathe_trainer {
         TimeSec exhalationTime;
         TimeSec pauseTimeAfterExhalation;
     };
-
     typedef std::list<std::string> ProfileNameList;
-    typedef std::map<std::string, TrainProfile> ProfileMap;
+    struct ProfileMapItem{
+        ProfileNameList::iterator it;
+        TrainProfile profile;
+    };
+    typedef std::unordered_map<std::string, ProfileMapItem> ProfileMap;
 }

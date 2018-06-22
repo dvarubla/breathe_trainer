@@ -1,10 +1,11 @@
+#include <iostream>
 #include "SettingsWindow.h"
 
 namespace breathe_trainer{
     SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::SettingsWindow) {
         ui->setupUi(this);
         _profListFrag.setWidget(ui->profilesList);
-        connect(ui->profilesList, SIGNAL(currentRowChanged(int)), this, SLOT(onCurrentRowChanged(int)));
+        connect(ui->profilesList->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onCurrentRowChanged(const QModelIndex&, const QModelIndex&)));
     }
 
     void SettingsWindow::showWindow() {
@@ -27,13 +28,29 @@ namespace breathe_trainer{
         ui->pauseExhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterExhalation));
     }
 
-    void SettingsWindow::onCurrentRowChanged(int row) {
-        if(row != -1) {
-            _settingsWinListener.lock()->onPositionChanged(ui->profilesList->item(row)->text().toStdString());
+    void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
+        if(prev.row() != -1) {
+            ProfileStrs strs = {
+                    ui->nameEdit->text().toStdString(),
+                    ui->inhaleEdit->text().toStdString(),
+                    ui->exhaleEdit->text().toStdString(),
+                    ui->pauseInhaleEdit->text().toStdString(),
+                    ui->pauseExhaleEdit->text().toStdString()
+            };
+            _settingsWinListener.lock()->onPositionChanged(
+                    prev.row(),
+                    ui->profilesList->item(prev.row())->text().toStdString(),
+                    strs,
+                    ui->profilesList->item(cur.row())->text().toStdString()
+            );
         }
     }
 
     void SettingsWindow::setSettingsWindowListener(const ISettWinListWPtr &settingsWinListener) {
         _settingsWinListener = settingsWinListener;
+    }
+
+    void SettingsWindow::setProfile(int index, const std::string &prof) {
+        ui->profilesList->item(index)->setText(QString::fromStdString(prof));
     }
 }

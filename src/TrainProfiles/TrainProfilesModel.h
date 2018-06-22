@@ -7,7 +7,7 @@
 namespace breathe_trainer {
     class TrainProfilesModel: public ITrainProfilesModelCopy, public ITrainProfilesModelEdit {
     private:
-        std::map<std::string, TrainProfile> _profiles;
+        ProfileMap _profiles;
         ProfileNameList _profileNames;
     public:
         ProfileNameList::const_iterator profileNamesBegin() override;
@@ -21,6 +21,8 @@ namespace breathe_trainer {
 
         explicit TrainProfilesModel(const std::vector<ProfileWithName> &profiles);
 
-        void setProfile(const std::string &str, const TrainProfile &prof) override;
+        void setProfile(const std::string &str, const TrainProfile &prof, const std::string &oldStr) override;
+
+        void deleteProfile(const std::string &str) override;
     };
 }
