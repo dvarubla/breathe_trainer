@@ -24,12 +24,13 @@ namespace breathe_trainer {
         auto trainerWin = std::make_shared<TrainerWindow>();
         auto settingsWin = std::make_shared<SettingsWindow>(&*trainerWin);
 
-        auto trainProfModel = std::make_shared<TrainProfilesModel>(profiles);
+        auto trainProfModelMain = std::make_shared<TrainProfilesModel>(profiles);
+        auto trainProfModelSettings = std::make_shared<TrainProfilesModel>(profiles);
 
-        auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModel);
+        auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings);
 
         auto trainerModel = std::make_shared<TrainerModel>();
-        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModel, settingsCtrl);
+        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl);
         trainerModel->setModelListener(trainCtrl);
         trainerWin->setListener(trainCtrl);
         trainCtrl->init();

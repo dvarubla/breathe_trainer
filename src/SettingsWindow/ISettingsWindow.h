@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <TrainerCommon.h>
+#include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
     class ISettingsWindow {

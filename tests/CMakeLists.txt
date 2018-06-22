@@ -10,4 +10,5 @@ function(add_bt_test name src)
 endfunction()
 
 add_bt_test(TrainerModelTest TrainerModelT.cpp)
+add_bt_test(TrainProfilesModelTest TrainProfilesModelT.cpp)
 

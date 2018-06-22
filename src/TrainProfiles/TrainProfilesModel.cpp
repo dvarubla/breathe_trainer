@@ -21,4 +21,16 @@ namespace breathe_trainer{
     ProfileNameList::const_iterator TrainProfilesModel::profileNamesEnd() {
         return _profileNames.cend();
     }
+
+    ProfileMap &TrainProfilesModel::profileMap() {
+        return _profiles;
+    }
+
+    ProfileNameList &TrainProfilesModel::profileList() {
+        return _profileNames;
+    }
+
+    void TrainProfilesModel::setProfile(const std::string &str, const TrainProfile &prof) {
+        _profiles[str] = prof;
+    }
 }

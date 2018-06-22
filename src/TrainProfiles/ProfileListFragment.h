@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QListWidget>
-#include <TrainerCommon.h>
+#include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
     class ProfileListFragment {
