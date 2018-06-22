@@ -5,6 +5,7 @@
 
 namespace breathe_trainer {
     struct ProfileStrs{
+        std::string name;
         std::string inhalationTime;
         std::string pauseTimeAfterInhalation;
         std::string exhalationTime;

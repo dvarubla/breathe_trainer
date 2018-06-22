@@ -20,6 +20,7 @@ namespace breathe_trainer{
     }
 
     void SettingsWindow::setFieldStrings(const ProfileStrs &strs) {
+        ui->nameEdit->setText(QString::fromStdString(strs.name));
         ui->inhaleEdit->setText(QString::fromStdString(strs.inhalationTime));
         ui->exhaleEdit->setText(QString::fromStdString(strs.exhalationTime));
         ui->pauseInhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterInhalation));
@@ -27,7 +28,9 @@ namespace breathe_trainer{
     }
 
     void SettingsWindow::onCurrentRowChanged(int row) {
-        _settingsWinListener.lock()->onPositionChanged(ui->profilesList->item(row)->text().toStdString());
+        if(row != -1) {
+            _settingsWinListener.lock()->onPositionChanged(ui->profilesList->item(row)->text().toStdString());
+        }
     }
 
     void SettingsWindow::setSettingsWindowListener(const ISettWinListWPtr &settingsWinListener) {
