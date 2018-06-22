@@ -4,6 +4,7 @@ namespace breathe_trainer{
     SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::SettingsWindow) {
         ui->setupUi(this);
         _profListFrag.setWidget(ui->profilesList);
+        connect(ui->profilesList, SIGNAL(currentRowChanged(int)), this, SLOT(onCurrentRowChanged(int)));
     }
 
     void SettingsWindow::showWindow() {
@@ -23,5 +24,13 @@ namespace breathe_trainer{
         ui->exhaleEdit->setText(QString::fromStdString(strs.exhalationTime));
         ui->pauseInhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterInhalation));
         ui->pauseExhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterExhalation));
+    }
+
+    void SettingsWindow::onCurrentRowChanged(int row) {
+        _settingsWinListener.lock()->onPositionChanged(ui->profilesList->item(row)->text().toStdString());
+    }
+
+    void SettingsWindow::setSettingsWindowListener(const ISettWinListWPtr &settingsWinListener) {
+        _settingsWinListener = settingsWinListener;
     }
 }

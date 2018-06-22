@@ -73,7 +73,7 @@ namespace breathe_trainer {
     }
 
     std::string TrainerWindow::getSelectedProfileName() {
-        return ui->profilesList->selectedItems().first()->text().toStdString();
+        return _profListFrag.getSelectedProfileName();
     }
 
     void TrainerWindow::editButtonClicked() {

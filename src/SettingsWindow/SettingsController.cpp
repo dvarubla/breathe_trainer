@@ -20,4 +20,8 @@ namespace breathe_trainer{
                 std::to_string(profile.pauseTimeAfterExhalation)
         };
     }
+
+    void SettingsController::onPositionChanged(const std::string &str) {
+        _settingsWin->setFieldStrings(formProfileStrs(_trainProfModel->getProfileByName(str)));
+    }
 }

@@ -15,4 +15,8 @@ namespace breathe_trainer{
     void ProfileListFragment::setWidget(QListWidget *widget) {
         _widget = widget;
     }
+
+    std::string ProfileListFragment::getSelectedProfileName() {
+        return _widget->selectedItems().first()->text().toStdString();
+    }
 }

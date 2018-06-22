@@ -13,6 +13,11 @@ namespace breathe_trainer {
     public:
         explicit SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMPtr &trainProfModel);
 
+    private:
+        void onPositionChanged(const std::string &str) override;
+
+    public:
+
         void show() override;
     };
 }
