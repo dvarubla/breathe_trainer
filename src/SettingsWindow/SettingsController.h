@@ -1,5 +1,6 @@
 #pragma once
 
+#include <TrainProfiles/ITrainProfilesModel.h>
 #include "ISettingsWindow.h"
 #include "ISettingsController.h"
 
@@ -7,8 +8,9 @@ namespace breathe_trainer {
     class SettingsController: public ISettingsController {
     private:
         ISettWinPtr _settingsWin;
+        ITrainProfMPtr _trainProfModel;
     public:
-        explicit SettingsController(const ISettWinPtr &settingsWin);
+        explicit SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMPtr &trainProfModel);
 
         void show() override;
     };

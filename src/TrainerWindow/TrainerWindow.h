@@ -2,6 +2,7 @@
 #include <qmainwindow.h>
 #include <ui_trainer.h>
 #include <memory>
+#include <TrainProfiles/ProfileListFragment.h>
 #include "ITrainerWindow.h"
 #include "ITrainerModelListener.h"
 
@@ -10,6 +11,7 @@ namespace breathe_trainer {
     Q_OBJECT
     private:
         ITrainWinListWPtr _listener;
+        ProfileListFragment _profListFrag;
         Q_INVOKABLE void _setTotalTime(const std::string &str);
 
         Q_INVOKABLE void _setPhaseTime(const std::string &str);

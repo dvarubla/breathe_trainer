@@ -3,8 +3,10 @@
 
 namespace breathe_trainer {
 
-    TrainerWindow::TrainerWindow() : QMainWindow(nullptr), ui(new Ui::TrainerWindow) {
+    TrainerWindow::TrainerWindow() : QMainWindow(nullptr), ui(new Ui::TrainerWindow){
         ui->setupUi(this);
+        _profListFrag.setWidget(ui->profilesList);
+
         connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
         connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
         connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
@@ -67,11 +69,7 @@ namespace breathe_trainer {
     }
 
     void TrainerWindow::addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) {
-        ui->profilesList->clear();
-        for(auto it = begin; it != end; ++it){
-            ui->profilesList->addItem(QString::fromStdString(*it));
-        }
-        ui->profilesList->item(0)->setSelected(true);
+        _profListFrag.setProfiles(begin, end);
     }
 
     std::string TrainerWindow::getSelectedProfileName() {
