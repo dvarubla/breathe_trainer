@@ -9,7 +9,7 @@ namespace breathe_trainer{
         for(auto it = begin; it != end; ++it){
             _widget->addItem(QString::fromStdString(*it));
         }
-        _widget->item(0)->setSelected(true);
+        _widget->setCurrentRow(0);
     }
 
     void ProfileListFragment::setWidget(QListWidget *widget) {

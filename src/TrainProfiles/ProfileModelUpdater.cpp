@@ -1,17 +1,21 @@
+#include <iostream>
 #include "ProfileModelUpdater.h"
 
 namespace breathe_trainer{
 
     void ProfileModelUpdater::commit() {
-        _finalM->profileList() = _tempM->profileList();
-        _finalM->profileMap() = _tempM->profileMap();
+        _finalM->copyModel(_tempM);
+        _listener.lock()->onCommit();
     }
 
     void ProfileModelUpdater::rollback() {
-        _tempM->profileList() = _finalM->profileList();
-        _tempM->profileMap() = _finalM->profileMap();
+        _tempM->copyModel(_finalM);
     }
 
     ProfileModelUpdater::ProfileModelUpdater(const ITrainProfMCopyPtr &tempM, const ITrainProfMCopyPtr &finalM) : _tempM(tempM), _finalM(finalM){
+    }
+
+    void ProfileModelUpdater::setListener(const IProfMUpdListWPtr &listener) {
+        _listener = listener;
     }
 }

@@ -5,6 +5,7 @@ namespace breathe_trainer{
     SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::SettingsWindow) {
         ui->setupUi(this);
         _profListFrag.setWidget(ui->profilesList);
+        connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveBtnClicked()));
         connect(ui->profilesList->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onCurrentRowChanged(const QModelIndex&, const QModelIndex&)));
     }
 
@@ -29,7 +30,7 @@ namespace breathe_trainer{
     }
 
     void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
-        if(prev.row() != -1) {
+        if(prev.row() != -1 && cur.row() != -1) {
             ProfileStrs strs = {
                     ui->nameEdit->text().toStdString(),
                     ui->inhaleEdit->text().toStdString(),
@@ -52,5 +53,9 @@ namespace breathe_trainer{
 
     void SettingsWindow::setProfile(int index, const std::string &prof) {
         ui->profilesList->item(index)->setText(QString::fromStdString(prof));
+    }
+
+    void SettingsWindow::onSaveBtnClicked() {
+        _settingsWinListener.lock()->onSaveBtnClicked();
     }
 }

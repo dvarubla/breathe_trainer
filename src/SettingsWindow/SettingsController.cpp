@@ -3,11 +3,16 @@
 
 namespace breathe_trainer{
 
-    SettingsController::SettingsController(const ISettWinPtr &settingsWin, const ITrainProfMEditPtr &trainProfModel) :
-            _settingsWin(settingsWin), _trainProfModel(trainProfModel){
+    SettingsController::SettingsController(
+            const ISettWinPtr &settingsWin,
+            const ITrainProfMEditPtr &trainProfModel,
+            const IProfMUpdaterPtr &profModelUpdater
+    ) :
+            _settingsWin(settingsWin), _trainProfModel(trainProfModel), _profModelUpdater(profModelUpdater){
     }
 
     void SettingsController::show() {
+        _profModelUpdater->rollback();
         _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
         _settingsWin->showWindow();
         std::string firstName = *_trainProfModel->profileNamesBegin();
@@ -36,5 +41,9 @@ namespace breathe_trainer{
         }
         _trainProfModel->setProfile(profileStrs.name, prof, oldName);
         _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
+    }
+
+    void SettingsController::onSaveBtnClicked() {
+        _profModelUpdater->commit();
     }
 }

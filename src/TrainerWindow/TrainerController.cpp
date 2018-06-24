@@ -30,7 +30,7 @@ namespace breathe_trainer{
     void TrainerController::init() {
         clearWindow();
         _window->setStopButtonEnable(false);
-        _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+        updateProfiles();
         _window->showWindow();
     }
 
@@ -76,5 +76,13 @@ namespace breathe_trainer{
 
     void TrainerController::onEditPressed() {
         _settingsCtrl->show();
+    }
+
+    void TrainerController::onCommit() {
+        updateProfiles();
+    }
+
+    void TrainerController::updateProfiles() {
+        _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
     }
 }

@@ -15,6 +15,7 @@ namespace breathe_trainer {
         ISettWinListWPtr _settingsWinListener;
     public slots:
         void onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev);
+        void onSaveBtnClicked();
     public:
         explicit SettingsWindow(QWidget *parent);
 

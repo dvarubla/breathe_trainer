@@ -16,6 +16,7 @@ namespace breathe_trainer {
         const static uint_fast8_t NUM_INHALE_COLORS = 3;
         std::array<uint_fast32_t, NUM_INHALE_COLORS> inhaleColors = {0x00FF00, 0xF0F000, 0xFF0000};
         void clearWindow();
+        void updateProfiles();
     public:
         void onStateChanged() override;
 
@@ -33,6 +34,8 @@ namespace breathe_trainer {
         void onStopPressed() override;
 
         void onEditPressed() override;
+
+        void onCommit() override;
 
     public:
 

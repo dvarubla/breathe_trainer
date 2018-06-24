@@ -46,4 +46,13 @@ namespace breathe_trainer{
         _profileNames.erase(_profiles[str].it);
         _profiles.erase(str);
     }
+
+    void TrainProfilesModel::copyModel(const ITrainProfMCopyPtr &other) {
+        _profileNames = other->profileList();
+        auto profiles = other->profileMap();
+        _profiles.clear();
+        for(auto it = _profileNames.begin(); it != _profileNames.end(); ++it){
+            _profiles.insert(std::make_pair<>(*it, ProfileMapItem{it, profiles[*it].profile}));
+        }
+    }
 }
