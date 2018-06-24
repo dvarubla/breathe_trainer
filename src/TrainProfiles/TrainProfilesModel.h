@@ -26,5 +26,9 @@ namespace breathe_trainer {
         void deleteProfile(const std::string &str) override;
 
         void copyModel(const ITrainProfMCopyPtr &other) override;
+
+        bool moveDown(const std::string &str) override;
+
+        bool moveUp(const std::string &str) override;
     };
 }

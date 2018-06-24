@@ -55,4 +55,22 @@ namespace breathe_trainer{
             _profiles.insert(std::make_pair<>(*it, ProfileMapItem{it, profiles[*it].profile}));
         }
     }
+
+    bool TrainProfilesModel::moveDown(const std::string &str) {
+        auto it = _profiles[str].it;
+        if(it == std::prev(_profileNames.end())){
+            return false;
+        }
+        _profileNames.splice(it, _profileNames, std::next(it));
+        return true;
+    }
+
+    bool TrainProfilesModel::moveUp(const std::string &str) {
+        auto it = _profiles[str].it;
+        if(it == _profileNames.begin()){
+            return false;
+        }
+        _profileNames.splice(std::prev(it), _profileNames, it);
+        return true;
+    }
 }

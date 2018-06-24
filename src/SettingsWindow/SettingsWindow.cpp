@@ -7,6 +7,8 @@ namespace breathe_trainer{
         _profListFrag.setWidget(ui->profilesList);
         connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveBtnClicked()));
         connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelBtnClicked()));
+        connect(ui->moveUpBtn, SIGNAL(clicked()), this, SLOT(onMoveUpBtnClicked()));
+        connect(ui->moveDownBtn, SIGNAL(clicked()), this, SLOT(onMoveDownBtnClicked()));
         connect(ui->profilesList->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onCurrentRowChanged(const QModelIndex&, const QModelIndex&)));
     }
 
@@ -73,5 +75,17 @@ namespace breathe_trainer{
 
     void SettingsWindow::onCancelBtnClicked() {
         _settingsWinListener.lock()->onCancelBtnClicked();
+    }
+
+    void SettingsWindow::onMoveUpBtnClicked() {
+        _settingsWinListener.lock()->onMoveUpBtnClicked();
+    }
+
+    void SettingsWindow::onMoveDownBtnClicked() {
+        _settingsWinListener.lock()->onMoveDownBtnClicked();
+    }
+
+    void SettingsWindow::setSelectedIndex(int index) {
+        ui->profilesList->setCurrentRow(index);
     }
 }

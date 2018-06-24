@@ -40,7 +40,7 @@ namespace breathe_trainer {
     public:
         explicit TrainerModel();
 
-        void setProfile(const TrainProfile &profile);
+        void setProfile(const TrainProfile &profile) override;
 
         ~TrainerModel();
         void start() override;

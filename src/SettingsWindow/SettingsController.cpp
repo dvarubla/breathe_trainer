@@ -63,4 +63,20 @@ namespace breathe_trainer{
         std::string firstName = *_trainProfModel->profileNamesBegin();
         _settingsWin->setFieldStrings(formProfileStrs(firstName, _trainProfModel->getProfileByName(firstName)));
     }
+
+    void SettingsController::onMoveUpBtnClicked() {
+        auto index = _settingsWin->getSelectedIndex();
+        if(_trainProfModel->moveUp(_settingsWin->getSelectedProfileName())){
+            initWindow();
+            _settingsWin->setSelectedIndex(index - 1);
+        }
+    }
+
+    void SettingsController::onMoveDownBtnClicked() {
+        auto index = _settingsWin->getSelectedIndex();
+        if(_trainProfModel->moveDown(_settingsWin->getSelectedProfileName())){
+            initWindow();
+            _settingsWin->setSelectedIndex(index + 1);
+        }
+    }
 }

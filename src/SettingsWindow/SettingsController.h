@@ -25,6 +25,10 @@ namespace breathe_trainer {
 
         void onCancelBtnClicked() override;
 
+        void onMoveUpBtnClicked() override;
+
+        void onMoveDownBtnClicked() override;
+
     public:
         void show() override;
     };

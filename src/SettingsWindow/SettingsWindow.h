@@ -17,6 +17,8 @@ namespace breathe_trainer {
         void onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev);
         void onSaveBtnClicked();
         void onCancelBtnClicked();
+        void onMoveUpBtnClicked();
+        void onMoveDownBtnClicked();
     public:
         explicit SettingsWindow(QWidget *parent);
 
@@ -37,6 +39,8 @@ namespace breathe_trainer {
         ProfileStrs getProfileStrings() override;
 
         int getSelectedIndex() override;
+
+        void setSelectedIndex(int index) override;
 
     private:
         Ui::SettingsWindow *ui;

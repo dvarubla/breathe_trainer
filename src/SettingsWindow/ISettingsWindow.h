@@ -19,6 +19,7 @@ namespace breathe_trainer {
         virtual void setProfile(int index, const std::string &prof) = 0;
         virtual std::string getSelectedProfileName() = 0;
         virtual int getSelectedIndex() = 0;
+        virtual void setSelectedIndex(int index) = 0;
         virtual ProfileStrs getProfileStrings() = 0;
     };
     typedef std::shared_ptr<ISettingsWindow> ISettWinPtr;

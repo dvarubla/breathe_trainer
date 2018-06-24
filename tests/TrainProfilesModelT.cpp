@@ -14,7 +14,9 @@ public:
     TrainProfilesModelTest(){
         std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
                 {{}, "pr1"},
-                {{}, "pr2"}
+                {{}, "pr2"},
+                {{}, "pr3"},
+                {{}, "pr4"}
         };
         profiles[0].profile.inhalationTime = 2;
         profiles[1].profile.inhalationTime = 10;
@@ -48,3 +50,14 @@ TEST_F(TrainProfilesModelTest, ChangeProfileNameThanRead){
     EXPECT_EQ(model->getProfileByName("pr3").inhalationTime, 7);
 }
 
+TEST_F(TrainProfilesModelTest, MoveDown){
+    model->moveDown("pr3");
+    EXPECT_EQ(*std::prev(model->profileNamesEnd()), "pr3");
+    EXPECT_EQ(*std::prev(std::prev(model->profileNamesEnd())), "pr4");
+}
+
+TEST_F(TrainProfilesModelTest, MoveUp){
+    model->moveUp("pr2");
+    EXPECT_EQ(*model->profileNamesBegin(), "pr2");
+    EXPECT_EQ(*std::next(model->profileNamesBegin()), "pr1");
+}
