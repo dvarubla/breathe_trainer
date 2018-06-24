@@ -13,6 +13,7 @@ namespace breathe_trainer {
         IProfMUpdaterPtr _profModelUpdater;
         ProfileStrs formProfileStrs(const std::string &name, const TrainProfile &profile);
         void saveCurrent(int index, const std::string &name, const ProfileStrs &profileStrs);
+        void initWindow();
     public:
         explicit SettingsController(
                 const ISettWinPtr &settingsWin,
@@ -21,6 +22,8 @@ namespace breathe_trainer {
         );
         void onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) override;
         void onSaveBtnClicked() override;
+
+        void onCancelBtnClicked() override;
 
     public:
         void show() override;

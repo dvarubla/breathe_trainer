@@ -16,6 +16,7 @@ namespace breathe_trainer {
     public slots:
         void onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev);
         void onSaveBtnClicked();
+        void onCancelBtnClicked();
     public:
         explicit SettingsWindow(QWidget *parent);
 
