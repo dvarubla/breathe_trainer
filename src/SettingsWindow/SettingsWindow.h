@@ -31,6 +31,12 @@ namespace breathe_trainer {
 
         void setProfile(int index, const std::string &prof) override;
 
+        std::string getSelectedProfileName() override;
+
+        ProfileStrs getProfileStrings() override;
+
+        int getSelectedIndex() override;
+
     private:
         Ui::SettingsWindow *ui;
     };

@@ -30,20 +30,28 @@ namespace breathe_trainer{
     }
 
     void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) {
+        saveCurrent(index, oldName, profileStrs);
+        _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
+    }
+
+    void SettingsController::onSaveBtnClicked() {
+        auto profileStrs = _settingsWin->getProfileStrings();
+        auto name = _settingsWin->getSelectedProfileName();
+        auto index = _settingsWin->getSelectedIndex();
+        saveCurrent(index, name, profileStrs);
+        _profModelUpdater->commit();
+    }
+
+    void SettingsController::saveCurrent(int index, const std::string &name, const ProfileStrs &profileStrs) {
         TrainProfile prof = {
                 std::stoul(profileStrs.inhalationTime),
                 std::stoul(profileStrs.pauseTimeAfterInhalation),
                 std::stoul(profileStrs.exhalationTime),
                 std::stoul(profileStrs.pauseTimeAfterExhalation),
         };
-        if(oldName != profileStrs.name){
+        if(name != profileStrs.name){
             _settingsWin->setProfile(index, profileStrs.name);
         }
-        _trainProfModel->setProfile(profileStrs.name, prof, oldName);
-        _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
-    }
-
-    void SettingsController::onSaveBtnClicked() {
-        _profModelUpdater->commit();
+        _trainProfModel->setProfile(profileStrs.name, prof, name);
     }
 }

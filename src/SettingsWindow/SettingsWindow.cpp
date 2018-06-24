@@ -31,17 +31,10 @@ namespace breathe_trainer{
 
     void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
         if(prev.row() != -1 && cur.row() != -1) {
-            ProfileStrs strs = {
-                    ui->nameEdit->text().toStdString(),
-                    ui->inhaleEdit->text().toStdString(),
-                    ui->exhaleEdit->text().toStdString(),
-                    ui->pauseInhaleEdit->text().toStdString(),
-                    ui->pauseExhaleEdit->text().toStdString()
-            };
             _settingsWinListener.lock()->onPositionChanged(
                     prev.row(),
                     ui->profilesList->item(prev.row())->text().toStdString(),
-                    strs,
+                    getProfileStrings(),
                     ui->profilesList->item(cur.row())->text().toStdString()
             );
         }
@@ -57,5 +50,23 @@ namespace breathe_trainer{
 
     void SettingsWindow::onSaveBtnClicked() {
         _settingsWinListener.lock()->onSaveBtnClicked();
+    }
+
+    std::string SettingsWindow::getSelectedProfileName() {
+        return _profListFrag.getSelectedProfileName();
+    }
+
+    ProfileStrs SettingsWindow::getProfileStrings() {
+        return {
+                ui->nameEdit->text().toStdString(),
+                ui->inhaleEdit->text().toStdString(),
+                ui->exhaleEdit->text().toStdString(),
+                ui->pauseInhaleEdit->text().toStdString(),
+                ui->pauseExhaleEdit->text().toStdString()
+        };
+    }
+
+    int SettingsWindow::getSelectedIndex() {
+        return ui->profilesList->currentRow();
     }
 }
