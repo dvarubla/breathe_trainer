@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QtWidgets/QInputDialog>
 #include "SettingsWindow.h"
 
 namespace breathe_trainer{
@@ -9,6 +10,7 @@ namespace breathe_trainer{
         connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelBtnClicked()));
         connect(ui->moveUpBtn, SIGNAL(clicked()), this, SLOT(onMoveUpBtnClicked()));
         connect(ui->moveDownBtn, SIGNAL(clicked()), this, SLOT(onMoveDownBtnClicked()));
+        connect(ui->addBtn, SIGNAL(clicked()), this, SLOT(onAddBtnClicked()));
         connect(ui->profilesList->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onCurrentRowChanged(const QModelIndex&, const QModelIndex&)));
     }
 
@@ -87,5 +89,23 @@ namespace breathe_trainer{
 
     void SettingsWindow::setSelectedIndex(int index) {
         ui->profilesList->setCurrentRow(index);
+    }
+
+    std::optional<std::string> SettingsWindow::showAddNameDialog() {
+        QInputDialog dialog(this);
+        dialog.setCancelButtonText("Отмена");
+        dialog.setOkButtonText("Добавить");
+        dialog.setLabelText("Название профиля:");
+        dialog.setWindowTitle("Введите название профиля");
+        auto status =  dialog.exec();
+        if(status == QDialog::Accepted){
+            return dialog.textValue().toStdString();
+        } else {
+            return std::nullopt;
+        }
+    }
+
+    void SettingsWindow::onAddBtnClicked() {
+        _settingsWinListener.lock()->onAddBtnClicked();
     }
 }

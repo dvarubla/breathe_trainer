@@ -79,4 +79,13 @@ namespace breathe_trainer{
             _settingsWin->setSelectedIndex(index + 1);
         }
     }
+
+    void SettingsController::onAddBtnClicked() {
+        auto res = _settingsWin->showAddNameDialog();
+        if(res){
+            _trainProfModel->addProfile(*res);
+            _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+            _settingsWin->setSelectedIndex(static_cast<int>(_trainProfModel->numProfiles()) - 1);
+        }
+    }
 }

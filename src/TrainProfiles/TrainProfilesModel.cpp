@@ -73,4 +73,14 @@ namespace breathe_trainer{
         _profileNames.splice(std::prev(it), _profileNames, it);
         return true;
     }
+
+    void TrainProfilesModel::addProfile(const std::string &name) {
+        TrainProfile emptyProfile = {1, 1, 1, 1};
+        _profileNames.push_back(name);
+        _profiles.insert(std::make_pair<>(name, ProfileMapItem{std::prev(_profileNames.end()), emptyProfile}));
+    }
+
+    uint_fast32_t TrainProfilesModel::numProfiles() {
+        return _profiles.size();
+    }
 }

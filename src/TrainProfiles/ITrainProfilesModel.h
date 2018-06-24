@@ -14,9 +14,8 @@ namespace breathe_trainer {
         };
         virtual ProfileNameList::const_iterator profileNamesBegin() = 0;
         virtual ProfileNameList::const_iterator profileNamesEnd() = 0;
-        virtual bool moveDown(const std::string &str) = 0;
-        virtual bool moveUp(const std::string &str) = 0;
         virtual TrainProfile getProfileByName(const std::string &name) = 0;
+        virtual uint_fast32_t numProfiles() = 0;
     };
 
     typedef std::shared_ptr<ITrainProfilesModel> ITrainProfMPtr;

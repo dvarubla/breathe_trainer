@@ -61,3 +61,8 @@ TEST_F(TrainProfilesModelTest, MoveUp){
     EXPECT_EQ(*model->profileNamesBegin(), "pr2");
     EXPECT_EQ(*std::next(model->profileNamesBegin()), "pr1");
 }
+
+TEST_F(TrainProfilesModelTest, Add){
+    model->addProfile("prLast");
+    EXPECT_EQ(*std::prev(model->profileNamesEnd()), "prLast");
+}

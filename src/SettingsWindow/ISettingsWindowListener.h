@@ -10,6 +10,7 @@ namespace breathe_trainer {
         virtual void onCancelBtnClicked() = 0;
         virtual void onMoveUpBtnClicked() = 0;
         virtual void onMoveDownBtnClicked() = 0;
+        virtual void onAddBtnClicked() = 0;
     };
 
     typedef std::weak_ptr<ISettingsWindowListener> ISettWinListWPtr;

@@ -23,6 +23,8 @@ namespace breathe_trainer {
 
         void setProfile(const std::string &str, const TrainProfile &prof, const std::string &oldStr) override;
 
+        void addProfile(const std::string &name) override;
+
         void deleteProfile(const std::string &str) override;
 
         void copyModel(const ITrainProfMCopyPtr &other) override;
@@ -30,5 +32,7 @@ namespace breathe_trainer {
         bool moveDown(const std::string &str) override;
 
         bool moveUp(const std::string &str) override;
+
+        uint_fast32_t numProfiles() override;
     };
 }

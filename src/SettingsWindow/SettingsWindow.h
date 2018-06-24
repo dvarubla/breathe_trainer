@@ -19,6 +19,7 @@ namespace breathe_trainer {
         void onCancelBtnClicked();
         void onMoveUpBtnClicked();
         void onMoveDownBtnClicked();
+        void onAddBtnClicked();
     public:
         explicit SettingsWindow(QWidget *parent);
 
@@ -41,6 +42,8 @@ namespace breathe_trainer {
         int getSelectedIndex() override;
 
         void setSelectedIndex(int index) override;
+
+        std::optional<std::string> showAddNameDialog() override;
 
     private:
         Ui::SettingsWindow *ui;
