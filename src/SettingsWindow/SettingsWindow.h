@@ -31,7 +31,7 @@ namespace breathe_trainer {
 
         void addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) override;
 
-        void setFieldStrings(const ProfileStrs &strs) override;
+        void setFieldStrings(const ProfileData &data) override;
 
         void setSettingsWindowListener(const ISettWinListWPtr &settingsWinListener);
 
@@ -39,7 +39,7 @@ namespace breathe_trainer {
 
         std::string getSelectedProfileName() override;
 
-        ProfileStrs getProfileStrings() override;
+        ProfileData getProfileStrings() override;
 
         int getSelectedIndex() override;
 

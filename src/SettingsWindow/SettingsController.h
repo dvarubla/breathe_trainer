@@ -11,8 +11,8 @@ namespace breathe_trainer {
         ISettWinPtr _settingsWin;
         ITrainProfMEditPtr _trainProfModel;
         IProfMUpdaterPtr _profModelUpdater;
-        ProfileStrs formProfileStrs(const std::string &name, const TrainProfile &profile);
-        void saveCurrent(int index, const std::string &name, const ProfileStrs &profileStrs);
+        ProfileData formProfileData(const std::string &name, const TrainProfile &profile);
+        void saveCurrent(int index, const std::string &name, const ProfileData &profileData);
         void initWindow();
         void setUpDownButtons();
     public:
@@ -21,7 +21,7 @@ namespace breathe_trainer {
                 const ITrainProfMEditPtr &trainProfModel,
                 const IProfMUpdaterPtr &profModelUpdater
         );
-        void onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) override;
+        void onPositionChanged(int index, const std::string &oldName, const ProfileData &profileData, const std::string &newName) override;
         void onSaveBtnClicked() override;
 
         void onCancelBtnClicked() override;

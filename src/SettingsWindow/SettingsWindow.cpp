@@ -27,13 +27,13 @@ namespace breathe_trainer{
         _profListFrag.setProfiles(begin, end);
     }
 
-    void SettingsWindow::setFieldStrings(const ProfileStrs &strs) {
+    void SettingsWindow::setFieldStrings(const ProfileData &data) {
         setTextEditsDisabled(false);
-        ui->nameEdit->setText(QString::fromStdString(strs.name));
-        ui->inhaleEdit->setText(QString::fromStdString(strs.inhalationTime));
-        ui->exhaleEdit->setText(QString::fromStdString(strs.exhalationTime));
-        ui->pauseInhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterInhalation));
-        ui->pauseExhaleEdit->setText(QString::fromStdString(strs.pauseTimeAfterExhalation));
+        ui->nameEdit->setText(QString::fromStdString(data.name));
+        ui->inhaleEdit->setValue(static_cast<int>(data.inhalationTime));
+        ui->exhaleEdit->setValue(static_cast<int>(data.exhalationTime));
+        ui->pauseInhaleEdit->setValue(static_cast<int>(data.pauseTimeAfterInhalation));
+        ui->pauseExhaleEdit->setValue(static_cast<int>(data.pauseTimeAfterExhalation));
     }
 
     void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
@@ -63,13 +63,13 @@ namespace breathe_trainer{
         return _profListFrag.getSelectedProfileName();
     }
 
-    ProfileStrs SettingsWindow::getProfileStrings() {
+    ProfileData SettingsWindow::getProfileStrings() {
         return {
                 ui->nameEdit->text().toStdString(),
-                ui->inhaleEdit->text().toStdString(),
-                ui->exhaleEdit->text().toStdString(),
-                ui->pauseInhaleEdit->text().toStdString(),
-                ui->pauseExhaleEdit->text().toStdString()
+                static_cast<TimeSec>(ui->inhaleEdit->value()),
+                static_cast<TimeSec>(ui->exhaleEdit->value()),
+                static_cast<TimeSec>(ui->pauseInhaleEdit->value()),
+                static_cast<TimeSec>(ui->pauseExhaleEdit->value())
         };
     }
 
@@ -123,10 +123,10 @@ namespace breathe_trainer{
     void SettingsWindow::setTextEditsDisabled(bool disabled) {
         if(disabled){
             ui->nameEdit->setText("");
-            ui->inhaleEdit->setText("");
-            ui->exhaleEdit->setText("");
-            ui->pauseInhaleEdit->setText("");
-            ui->pauseExhaleEdit->setText("");
+            ui->inhaleEdit->setValue(1);
+            ui->exhaleEdit->setValue(1);
+            ui->pauseInhaleEdit->setValue(1);
+            ui->pauseExhaleEdit->setValue(1);
         }
         ui->nameEdit->setDisabled(disabled);
         ui->inhaleEdit->setDisabled(disabled);

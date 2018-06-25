@@ -17,43 +17,43 @@ namespace breathe_trainer{
         _settingsWin->showWindow();
     }
 
-    ProfileStrs SettingsController::formProfileStrs(const std::string &name, const TrainProfile &profile) {
+    ProfileData SettingsController::formProfileData(const std::string &name, const TrainProfile &profile) {
         return {
                 name,
-                std::to_string(profile.inhalationTime),
-                std::to_string(profile.pauseTimeAfterInhalation),
-                std::to_string(profile.exhalationTime),
-                std::to_string(profile.pauseTimeAfterExhalation)
+                profile.inhalationTime,
+                profile.pauseTimeAfterInhalation,
+                profile.exhalationTime,
+                profile.pauseTimeAfterExhalation
         };
     }
 
-    void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) {
-        saveCurrent(index, oldName, profileStrs);
-        _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
+    void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileData &profileData, const std::string &newName) {
+        saveCurrent(index, oldName, profileData);
+        _settingsWin->setFieldStrings(formProfileData(newName, _trainProfModel->getProfileByName(newName)));
         setUpDownButtons();
     }
 
     void SettingsController::onSaveBtnClicked() {
         if(_trainProfModel->numProfiles() != 0) {
-            auto profileStrs = _settingsWin->getProfileStrings();
+            auto profileData = _settingsWin->getProfileStrings();
             auto name = _settingsWin->getSelectedProfileName();
             auto index = _settingsWin->getSelectedIndex();
-            saveCurrent(index, name, profileStrs);
+            saveCurrent(index, name, profileData);
         }
         _profModelUpdater->commit();
     }
 
-    void SettingsController::saveCurrent(int index, const std::string &name, const ProfileStrs &profileStrs) {
+    void SettingsController::saveCurrent(int index, const std::string &name, const ProfileData &profileData) {
         TrainProfile prof = {
-                std::stoul(profileStrs.inhalationTime),
-                std::stoul(profileStrs.pauseTimeAfterInhalation),
-                std::stoul(profileStrs.exhalationTime),
-                std::stoul(profileStrs.pauseTimeAfterExhalation),
+                profileData.inhalationTime,
+                profileData.pauseTimeAfterInhalation,
+                profileData.exhalationTime,
+                profileData.pauseTimeAfterExhalation,
         };
-        if(name != profileStrs.name){
-            _settingsWin->setProfile(index, profileStrs.name);
+        if(name != profileData.name){
+            _settingsWin->setProfile(index, profileData.name);
         }
-        _trainProfModel->setProfile(profileStrs.name, prof, name);
+        _trainProfModel->setProfile(profileData.name, prof, name);
     }
 
     void SettingsController::onCancelBtnClicked() {
@@ -70,7 +70,7 @@ namespace breathe_trainer{
         } else {
             _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
             std::string firstName = *_trainProfModel->profileNamesBegin();
-            _settingsWin->setFieldStrings(formProfileStrs(firstName, _trainProfModel->getProfileByName(firstName)));
+            _settingsWin->setFieldStrings(formProfileData(firstName, _trainProfModel->getProfileByName(firstName)));
             _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::DELETE, false);
             if(_trainProfModel->numProfiles() != 1) {
                 _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, false);
