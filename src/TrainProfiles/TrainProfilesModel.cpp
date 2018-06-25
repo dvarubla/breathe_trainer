@@ -31,8 +31,11 @@ namespace breathe_trainer{
         return _profileNames;
     }
 
-    void TrainProfilesModel::setProfile(const std::string &str, const TrainProfile &prof, const std::string &oldStr) {
+    bool TrainProfilesModel::setProfile(const std::string &str, const TrainProfile &prof, const std::string &oldStr) {
         if(oldStr != str){
+            if(_profiles.find(str) != _profiles.end()){
+                return false;
+            }
             auto it = _profiles[oldStr].it;
             *(it) = str;
             _profiles.erase(oldStr);
@@ -40,6 +43,7 @@ namespace breathe_trainer{
         } else {
             _profiles[str].profile = prof;
         }
+        return true;
     }
 
     void TrainProfilesModel::deleteProfile(const std::string &str) {
@@ -74,12 +78,16 @@ namespace breathe_trainer{
         return true;
     }
 
-    void TrainProfilesModel::addProfile(const std::string &name) {
+    bool TrainProfilesModel::addProfile(const std::string &name) {
+        if(_profiles.find(name) != _profiles.end()){
+            return false;
+        }
         TrainProfile emptyProfile = {
                 {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}
         };
         _profileNames.push_back(name);
         _profiles.insert(std::make_pair<>(name, ProfileMapItem{std::prev(_profileNames.end()), emptyProfile}));
+        return true;
     }
 
     uint_fast32_t TrainProfilesModel::numProfiles() {

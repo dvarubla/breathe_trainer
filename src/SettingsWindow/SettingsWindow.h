@@ -51,6 +51,8 @@ namespace breathe_trainer {
 
         void setButtonDisabled(ButtonId id, bool disabled) override;
 
+        void showAddErrDialog(const std::string &name) override;
+
     private:
         Ui::SettingsWindow *ui;
     };

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
 #include "SettingsWindow.h"
 
 namespace breathe_trainer{
@@ -226,5 +227,10 @@ namespace breathe_trainer{
                 ui->cancelButton->setDisabled(disabled);
                 break;
         }
+    }
+
+    void SettingsWindow::showAddErrDialog(const std::string &name) {
+        QMessageBox::warning(this, "Ошибка!", QString::fromStdString(std::string("Профиль с именем \"") + name + "\" уже существует"),
+                             QMessageBox::Ok);
     }
 }

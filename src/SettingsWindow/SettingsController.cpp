@@ -25,9 +25,17 @@ namespace breathe_trainer{
     }
 
     void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileData &profileData, const std::string &newName) {
-        saveCurrent(index, oldName, profileData);
+        bool saved = saveCurrent(index, oldName, profileData);
+        if(!saved){
+            ProfileData editedData = profileData;
+            editedData.name = oldName;
+            saveCurrent(index, oldName, editedData);
+        }
         _settingsWin->setFieldStrings(formProfileData(newName, _trainProfModel->getProfileByName(newName)));
         setUpDownButtons();
+        if(!saved){
+            _settingsWin->showAddErrDialog(profileData.name);
+        }
     }
 
     void SettingsController::onSaveBtnClicked() {
@@ -35,17 +43,23 @@ namespace breathe_trainer{
             auto profileData = _settingsWin->getProfileStrings();
             auto name = _settingsWin->getSelectedProfileName();
             auto index = _settingsWin->getSelectedIndex();
-            saveCurrent(index, name, profileData);
+            if(!saveCurrent(index, name, profileData)){
+                _settingsWin->showAddErrDialog(profileData.name);
+                return;
+            }
         }
         _profModelUpdater->commit();
     }
 
-    void SettingsController::saveCurrent(int index, const std::string &name, const ProfileData &profileData) {
+    bool SettingsController::saveCurrent(int index, const std::string &name, const ProfileData &profileData) {
         TrainProfile prof = profileData.profile;
+        if(!_trainProfModel->setProfile(profileData.name, prof, name)){
+            return false;
+        }
         if(name != profileData.name){
             _settingsWin->setProfile(index, profileData.name);
         }
-        _trainProfModel->setProfile(profileData.name, prof, name);
+        return true;
     }
 
     void SettingsController::onCancelBtnClicked() {
@@ -95,7 +109,10 @@ namespace breathe_trainer{
     void SettingsController::onAddBtnClicked() {
         auto res = _settingsWin->showAddNameDialog();
         if(res){
-            _trainProfModel->addProfile(*res);
+            if(!_trainProfModel->addProfile(*res)){
+                _settingsWin->showAddErrDialog(*res);
+                return;
+            }
             initWindow();
             _settingsWin->setSelectedIndex(static_cast<int>(_trainProfModel->numProfiles()) - 1);
         }

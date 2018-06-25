@@ -12,7 +12,7 @@ namespace breathe_trainer {
         ITrainProfMEditPtr _trainProfModel;
         IProfMUpdaterPtr _profModelUpdater;
         ProfileData formProfileData(const std::string &name, const TrainProfile &profile);
-        void saveCurrent(int index, const std::string &name, const ProfileData &profileData);
+        bool saveCurrent(int index, const std::string &name, const ProfileData &profileData);
         void initWindow();
         void setUpDownButtons();
     public:
