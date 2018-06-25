@@ -40,7 +40,8 @@ namespace breathe_trainer {
         std::string formatDuration(DurationIn d);
         void notifyListenerState();
         void setPhase();
-        void doAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime);
+        void doAfterPhase();
+        void addTimeAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime);
     public:
         explicit TrainerModel(const ITimerPtr &timer, TimeMSec timerProgressInterval);
 

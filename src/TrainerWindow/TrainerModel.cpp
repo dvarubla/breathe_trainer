@@ -58,25 +58,32 @@ namespace breathe_trainer{
             _curPhaseCurSec = 0;
             switch(_curPhase){
                 case InternalPhase::INHALATION:
-                    _curPhase = InternalPhase::PAUSE_AFTER_INHALATION;
-                    _curPhaseTotalSec = _curPauseTimeAfterInhalation;
+                    if(_curPauseTimeAfterInhalation != 0) {
+                        _curPhase = InternalPhase::PAUSE_AFTER_INHALATION;
+                        _curPhaseTotalSec = _curPauseTimeAfterInhalation;
+                    } else {
+                        _curPhase = InternalPhase::EXHALATION;
+                        _curPhaseTotalSec = _curExhalationTime;
+                    }
                     break;
                 case InternalPhase::PAUSE_AFTER_INHALATION:
                     _curPhase = InternalPhase::EXHALATION;
                     _curPhaseTotalSec = _curExhalationTime;
                     break;
                 case InternalPhase::EXHALATION:
-                    _curPhase = InternalPhase::PAUSE_AFTER_EXHALATION;
-                    _curPhaseTotalSec = _curPauseTimeAfterExhalation;
+                    if(_curPauseTimeAfterExhalation != 0) {
+                        _curPhase = InternalPhase::PAUSE_AFTER_EXHALATION;
+                        _curPhaseTotalSec = _curPauseTimeAfterExhalation;
+                    } else {
+                        doAfterPhase();
+                        _curPhase = InternalPhase::INHALATION;
+                        _curPhaseTotalSec = _curInhalationTime;
+                    }
                     break;
                 case InternalPhase::PAUSE_AFTER_EXHALATION:
+                    doAfterPhase();
                     _curPhase = InternalPhase::INHALATION;
-                    doAfterPhase(_profile.inhalationTime, _curInhalationTime);
-                    doAfterPhase(_profile.exhalationTime, _curExhalationTime);
-                    doAfterPhase(_profile.pauseTimeAfterInhalation, _curPauseTimeAfterInhalation);
-                    doAfterPhase(_profile.pauseTimeAfterExhalation, _curPauseTimeAfterExhalation);
                     _curPhaseTotalSec = _curInhalationTime;
-                    _cycleNum++;
                     break;
             }
         }
@@ -134,7 +141,7 @@ namespace breathe_trainer{
         notifyListenerState();
     }
 
-    void TrainerModel::doAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime) {
+    void TrainerModel::addTimeAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime) {
         if(item.delta != 0){
             if(item.startCycle != 0 && _cycleNum >= item.startCycle){
                 if(item.startCycle == _cycleNum || (item.everyCycle != 0 && (_cycleNum % item.everyCycle) == 0)){
@@ -142,5 +149,13 @@ namespace breathe_trainer{
                 }
             }
         }
+    }
+
+    void TrainerModel::doAfterPhase() {
+        addTimeAfterPhase(_profile.inhalationTime, _curInhalationTime);
+        addTimeAfterPhase(_profile.exhalationTime, _curExhalationTime);
+        addTimeAfterPhase(_profile.pauseTimeAfterInhalation, _curPauseTimeAfterInhalation);
+        addTimeAfterPhase(_profile.pauseTimeAfterExhalation, _curPauseTimeAfterExhalation);
+        _cycleNum++;
     }
 }

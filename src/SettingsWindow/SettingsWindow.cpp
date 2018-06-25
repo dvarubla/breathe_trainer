@@ -89,16 +89,16 @@ namespace breathe_trainer{
                             static_cast<TimeSec>(ui->inhaleDeltaEdit->value())
                     },
                     {
-                            static_cast<TimeSec>(ui->exhaleEdit->value()),
-                            static_cast<Cycle>(ui->exhaleBeginEdit->value()),
-                            static_cast<Cycle>(ui->exhaleEveryEdit->value()),
-                            static_cast<TimeSec>(ui->exhaleDeltaEdit->value())
-                    },
-                    {
                             static_cast<TimeSec>(ui->pauseInhaleEdit->value()),
                             static_cast<Cycle>(ui->inhalePauseBeginEdit->value()),
                             static_cast<Cycle>(ui->inhalePauseEveryEdit->value()),
                             static_cast<TimeSec>(ui->inhalePauseDeltaEdit->value())
+                    },
+                    {
+                            static_cast<TimeSec>(ui->exhaleEdit->value()),
+                            static_cast<Cycle>(ui->exhaleBeginEdit->value()),
+                            static_cast<Cycle>(ui->exhaleEveryEdit->value()),
+                            static_cast<TimeSec>(ui->exhaleDeltaEdit->value())
                     },
                     {
                             static_cast<TimeSec>(ui->pauseExhaleEdit->value()),
