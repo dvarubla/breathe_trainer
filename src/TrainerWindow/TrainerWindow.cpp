@@ -70,6 +70,8 @@ namespace breathe_trainer {
 
     void TrainerWindow::addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) {
         _profListFrag.setProfiles(begin, end);
+        ui->startButton->setDisabled(false);
+        ui->startButton->setDisabled(false);
     }
 
     std::string TrainerWindow::getSelectedProfileName() {
@@ -78,5 +80,11 @@ namespace breathe_trainer {
 
     void TrainerWindow::editButtonClicked() {
         _listener.lock()->onEditPressed();
+    }
+
+    void TrainerWindow::clearProfiles() {
+        ui->profilesList->clear();
+        ui->startButton->setDisabled(true);
+        ui->startButton->setDisabled(true);
     }
 }

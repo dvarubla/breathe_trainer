@@ -34,10 +34,12 @@ namespace breathe_trainer{
     }
 
     void SettingsController::onSaveBtnClicked() {
-        auto profileStrs = _settingsWin->getProfileStrings();
-        auto name = _settingsWin->getSelectedProfileName();
-        auto index = _settingsWin->getSelectedIndex();
-        saveCurrent(index, name, profileStrs);
+        if(_trainProfModel->numProfiles() != 0) {
+            auto profileStrs = _settingsWin->getProfileStrings();
+            auto name = _settingsWin->getSelectedProfileName();
+            auto index = _settingsWin->getSelectedIndex();
+            saveCurrent(index, name, profileStrs);
+        }
         _profModelUpdater->commit();
     }
 

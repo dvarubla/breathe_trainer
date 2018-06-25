@@ -46,6 +46,8 @@ namespace breathe_trainer {
 
         std::string getSelectedProfileName() override;
 
+        void clearProfiles() override;
+
     private:
         Ui::TrainerWindow *ui;
     };

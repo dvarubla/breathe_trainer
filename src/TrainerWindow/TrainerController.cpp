@@ -83,6 +83,10 @@ namespace breathe_trainer{
     }
 
     void TrainerController::updateProfiles() {
-        _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+        if(_trainProfModel->numProfiles() == 0){
+            _window->clearProfiles();
+        } else {
+            _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+        }
     }
 }
