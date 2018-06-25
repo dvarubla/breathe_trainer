@@ -128,3 +128,49 @@ TEST_F(TrainerModelTest, PhaseTime){
     EXPECT_CALL(*mock, onStateChanged()).Times(INH_TIME + PAUSE_AFTER_INH + 2);
     attachListener(listener);
 }
+
+TEST_F(TrainerModelTest, PhaseWithIncrement){
+    profile.inhalationTime.startCycle = 1;
+    profile.inhalationTime.everyCycle = 2;
+    profile.inhalationTime.delta = 1;
+    struct : public BaseListenerStruct{
+        void onStateChanged(){
+            static TimeSec sec = 0;
+            auto cycleTime = INH_TIME + PAUSE_AFTER_INH + EXH_TIME + PAUSE_AFTER_EXH;
+            sec++;
+            if (sec == cycleTime + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec == cycleTime + INH_TIME + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec == cycleTime * 3 + INH_TIME + 2) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec > cycleTime * 3 + INH_TIME + 2) {
+                end();
+            }
+        }
+    } listener;
+    attachListener(listener);
+}
+
+TEST_F(TrainerModelTest, PhaseWithIncrement2){
+    profile.inhalationTime.startCycle = 1;
+    profile.inhalationTime.everyCycle = 0;
+    profile.inhalationTime.delta = 5;
+    struct : public BaseListenerStruct{
+        void onStateChanged(){
+            static TimeSec sec = 0;
+            auto cycleTime = INH_TIME + PAUSE_AFTER_INH + EXH_TIME + PAUSE_AFTER_EXH;
+            sec++;
+            if (sec == cycleTime + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec == cycleTime + INH_TIME + 5) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec == cycleTime + (cycleTime + 5) * 7 + INH_TIME + 5) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
+            } else if (sec > cycleTime + (cycleTime + 5) * 7 + INH_TIME + 5) {
+                end();
+            }
+        }
+    } listener;
+    attachListener(listener);
+}
