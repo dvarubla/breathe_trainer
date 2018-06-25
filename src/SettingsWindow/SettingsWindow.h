@@ -20,6 +20,7 @@ namespace breathe_trainer {
         void onMoveUpBtnClicked();
         void onMoveDownBtnClicked();
         void onAddBtnClicked();
+        void onDeleteBtnClicked();
     public:
         explicit SettingsWindow(QWidget *parent);
 

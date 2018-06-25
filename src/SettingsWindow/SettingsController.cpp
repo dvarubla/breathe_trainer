@@ -88,4 +88,9 @@ namespace breathe_trainer{
             _settingsWin->setSelectedIndex(static_cast<int>(_trainProfModel->numProfiles()) - 1);
         }
     }
+
+    void SettingsController::onDeleteBtnClicked() {
+        _trainProfModel->deleteProfile(_settingsWin->getSelectedProfileName());
+        initWindow();
+    }
 }

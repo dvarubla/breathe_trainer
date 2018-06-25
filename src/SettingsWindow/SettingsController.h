@@ -31,6 +31,8 @@ namespace breathe_trainer {
 
         void onAddBtnClicked() override;
 
+        void onDeleteBtnClicked() override;
+
     public:
         void show() override;
     };

@@ -11,6 +11,7 @@ namespace breathe_trainer{
         connect(ui->moveUpBtn, SIGNAL(clicked()), this, SLOT(onMoveUpBtnClicked()));
         connect(ui->moveDownBtn, SIGNAL(clicked()), this, SLOT(onMoveDownBtnClicked()));
         connect(ui->addBtn, SIGNAL(clicked()), this, SLOT(onAddBtnClicked()));
+        connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(onDeleteBtnClicked()));
         connect(ui->profilesList->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onCurrentRowChanged(const QModelIndex&, const QModelIndex&)));
     }
 
@@ -107,5 +108,9 @@ namespace breathe_trainer{
 
     void SettingsWindow::onAddBtnClicked() {
         _settingsWinListener.lock()->onAddBtnClicked();
+    }
+
+    void SettingsWindow::onDeleteBtnClicked() {
+        _settingsWinListener.lock()->onDeleteBtnClicked();
     }
 }
