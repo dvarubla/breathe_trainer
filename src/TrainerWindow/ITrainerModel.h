@@ -2,6 +2,7 @@
 
 #include "TrainerCommon.h"
 #include "ITrainerModelListener.h"
+#include "ITimerListener.h"
 #include <TrainProfiles/TrainProfile.h>
 
 namespace breathe_trainer {
@@ -10,7 +11,7 @@ namespace breathe_trainer {
         PAUSE,
         EXHALATION
     };
-    class ITrainerModel {
+    class ITrainerModel: public ITimerListener {
     public:
         virtual bool isStarted() = 0;
         virtual void start() = 0;

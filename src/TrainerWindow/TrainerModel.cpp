@@ -1,20 +1,13 @@
 #include <iostream>
 #include "TrainerModel.h"
-using std::chrono::seconds;
-using std::chrono::milliseconds;
-using std::chrono::system_clock;
-using std::chrono::duration_cast;
 
 namespace breathe_trainer{
     void TrainerModel::start() {
-        _threadStarted = true;
-        _threadWorking = true;
-        _timerThread = std::thread(&TrainerModel::thread_func, this);
+        _timer->start();
     }
 
     void TrainerModel::stop() {
-        _threadWorking = false;
-        _timerThread.join();
+        _timer->stop();
     }
 
     TimeStr TrainerModel::getTotalTime() {
@@ -23,7 +16,7 @@ namespace breathe_trainer{
                 std::chrono::hours,
                 std::chrono::minutes,
                 std::chrono::seconds
-        >(_timeElapsedSec);
+        >(std::chrono::seconds(_elapsedSec));
     }
 
     Phase TrainerModel::getPhase() {
@@ -40,44 +33,17 @@ namespace breathe_trainer{
                 std::chrono::hours,
                 std::chrono::minutes,
                 std::chrono::seconds
-        >(_curPhaseTotalSec - _curPhaseCurSec);
+        >(std::chrono::seconds(_curPhaseTotalSec - _curPhaseCurSec));
     }
 
     void TrainerModel::setModelListener(const ITrainMListWPtr &ptr) {
         _listenerPtr = ptr;
     }
 
-    TrainerModel::TrainerModel(): _threadStarted(false), _threadWorking(false) {
-    }
-
-    void TrainerModel::thread_func() {
-        _startPhaseTime = _startTime = system_clock::now();
-        _timeElapsedSec = seconds(0);
-        _cycleNum = 1;
-        _curPhase = InternalPhase::INHALATION;
-        _curPhaseTotalSec = seconds(_profile.inhalationTime);
-        notifyListenerState();
-        while(_threadWorking) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_INTERVAL_MS));
-            if(_threadWorking) {
-                processTimerTick();
-            }
-        }
-    }
-
-    TrainerModel::~TrainerModel() {
-        if(_threadStarted) {
-            if(_timerThread.joinable()) {
-                _threadWorking = false;
-                _timerThread.join();
-            }
-        }
-    }
-
     template<class DurationIn, class FirstDuration, class...RestDurations>
     std::string TrainerModel::formatDuration(DurationIn d)
     {
-        auto val = duration_cast<FirstDuration>(d);
+        auto val = std::chrono::duration_cast<FirstDuration>(d);
         std::string out = std::to_string(val.count());
         out = out.insert(0, STR_PART_LEN - out.length(), '0');
         if constexpr(sizeof...(RestDurations) > 0) {
@@ -86,46 +52,29 @@ namespace breathe_trainer{
         return out;
     }
 
-    void TrainerModel::processTimerTick() {
-        auto curTime = system_clock::now();
-        auto diffCurTime = curTime - _startTime;
-        if(getPhase() != Phase::PAUSE){
-            _curPhaseMS = duration_cast<milliseconds>(curTime - _startPhaseTime);
-            _listenerPtr.lock()->onProgressChanged();
-        }
-        auto curTimeElapsedSec = duration_cast<seconds>(diffCurTime);
-        if(curTimeElapsedSec.count() != _timeElapsedSec.count()){
-            _timeElapsedSec = curTimeElapsedSec;
-            notifyListenerState();
-        }
-    }
-
     void TrainerModel::setPhase() {
-        auto curTime = system_clock::now();
-        auto diffPhaseTime = curTime - _startPhaseTime;
-        _curPhaseCurSec = duration_cast<seconds>(diffPhaseTime);
         if(_curPhaseTotalSec <= _curPhaseCurSec){
-            _curPhaseCurSec = seconds(0);
+            _curPhaseMS = 0;
+            _curPhaseCurSec = 0;
             switch(_curPhase){
                 case InternalPhase::INHALATION:
                     _curPhase = InternalPhase::PAUSE_AFTER_INHALATION;
-                    _curPhaseTotalSec = seconds(_profile.pauseTimeAfterInhalation);
+                    _curPhaseTotalSec = _profile.pauseTimeAfterInhalation;
                     break;
                 case InternalPhase::PAUSE_AFTER_INHALATION:
                     _curPhase = InternalPhase::EXHALATION;
-                    _curPhaseTotalSec = seconds(_profile.exhalationTime);
+                    _curPhaseTotalSec = _profile.exhalationTime;
                     break;
                 case InternalPhase::EXHALATION:
                     _curPhase = InternalPhase::PAUSE_AFTER_EXHALATION;
-                    _curPhaseTotalSec = seconds(_profile.pauseTimeAfterExhalation);
+                    _curPhaseTotalSec = _profile.pauseTimeAfterExhalation;
                     break;
                 case InternalPhase::PAUSE_AFTER_EXHALATION:
                     _curPhase = InternalPhase::INHALATION;
-                    _curPhaseTotalSec = seconds(_profile.inhalationTime);
+                    _curPhaseTotalSec = _profile.inhalationTime;
                     _cycleNum++;
                     break;
             }
-            _startPhaseTime = curTime;
         }
     }
 
@@ -135,11 +84,11 @@ namespace breathe_trainer{
     }
 
     double TrainerModel::getAmount() {
-        return 1.0 * _curPhaseMS.count() / duration_cast<milliseconds>(_curPhaseTotalSec).count();
+        return 1.0 * _curPhaseMS / (_curPhaseTotalSec * 1000);
     }
 
     bool TrainerModel::isStarted() {
-        return _threadWorking;
+        return _timer->isWorking();
     }
 
     void TrainerModel::setProfile(const TrainProfile &profile) {
@@ -148,5 +97,32 @@ namespace breathe_trainer{
 
     uint_fast32_t TrainerModel::getCycleNum() {
         return _cycleNum;
+    }
+
+    TrainerModel::TrainerModel(const ITimerPtr &timer, TimeMSec timerProgressInterval)
+            : _timer(timer), _timerProgressInterval(timerProgressInterval){
+    }
+
+    void TrainerModel::onSecondPassed() {
+        _elapsedSec++;
+        _curPhaseCurSec++;
+        notifyListenerState();
+    }
+
+    void TrainerModel::onProgress() {
+        if(getPhase() != Phase::PAUSE){
+            _curPhaseMS += _timerProgressInterval;
+            _listenerPtr.lock()->onProgressChanged();
+        }
+    }
+
+    void TrainerModel::onStart() {
+        _cycleNum = 1;
+        _curPhase = InternalPhase::INHALATION;
+        _elapsedSec = 0;
+        _curPhaseMS = 0;
+        _curPhaseCurSec = 0;
+        _curPhaseTotalSec = _profile.inhalationTime;
+        notifyListenerState();
     }
 }

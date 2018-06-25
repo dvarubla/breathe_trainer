@@ -2,6 +2,7 @@
 #include <TrainProfiles/TrainProfilesModel.h>
 #include <SettingsWindow/SettingsWindow.h>
 #include <TrainProfiles/ProfileModelUpdater.h>
+#include <TrainerWindow/Timer.h>
 #include "init.h"
 #include "TrainerWindow/TrainerModel.h"
 #include "TrainerWindow/TrainerController.h"
@@ -32,7 +33,9 @@ namespace breathe_trainer {
         auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings, profileModelUpdater);
         settingsWin->setSettingsWindowListener(settingsCtrl);
 
-        auto trainerModel = std::make_shared<TrainerModel>();
+        auto timer = std::make_shared<Timer>(1000, 100);
+        auto trainerModel = std::make_shared<TrainerModel>(timer, 100);
+        timer->setListener(trainerModel);
         auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl);
         profileModelUpdater->setListener(trainCtrl);
         trainerModel->setModelListener(trainCtrl);

@@ -1,7 +1,10 @@
 #include <TrainerModelListenerMock.h>
 #include <TrainerWindow/TrainerModel.h>
+#include <TrainerWindow/Timer.h>
+#include <future>
 
 using breathe_trainer::TrainerModel;
+using breathe_trainer::Timer;
 using breathe_trainer::TrainProfile;
 using breathe_trainer::TimeSec;
 using std::make_shared;
@@ -15,6 +18,7 @@ const TimeSec PAUSE_AFTER_EXH = 2;
 class TrainerModelTest: public ::testing::Test {
 public:
     shared_ptr<TrainerModel> model;
+    shared_ptr<Timer> timer;
     TrainProfile profile;
     shared_ptr<testing::NiceMock<TrainerModelListenerMock>> mock;
     TrainerModelTest(): profile{} {
@@ -22,7 +26,9 @@ public:
         profile.exhalationTime = EXH_TIME;
         profile.pauseTimeAfterInhalation = PAUSE_AFTER_INH;
         profile.pauseTimeAfterExhalation = PAUSE_AFTER_EXH;
-        model = make_shared<TrainerModel>();
+        timer = make_shared<Timer>(1,1);
+        model = make_shared<TrainerModel>(timer, 100);
+        timer->setListener(model);
         model->setProfile(profile);
         mock = make_shared<testing::NiceMock<TrainerModelListenerMock>>();
         model->setModelListener(mock);
@@ -32,16 +38,22 @@ public:
         ON_CALL(*mock, onStateChanged()).WillByDefault(testing::Invoke(&l, &T::onStateChanged));
         l.model = model;
         model->start();
-        while(l.working){
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
+        l.threadPromise = std::make_shared<std::promise<void>>();
+        l.mainPromise = std::make_shared<std::promise<void>>();
+        l.threadPromise->get_future().get();
+        l.mainPromise->set_value();
         model->stop();
     }
 };
 
 struct BaseListenerStruct{
+    shared_ptr<std::promise<void>> threadPromise;
+    shared_ptr<std::promise<void>> mainPromise;
     shared_ptr<TrainerModel> model;
-    std::atomic_bool working = true;
+    void end(){
+        threadPromise->set_value();
+        mainPromise->get_future().get();
+    }
 };
 
 TEST_F(TrainerModelTest, Started){
@@ -57,7 +69,7 @@ TEST_F(TrainerModelTest, TotalTime){
             static TimeSec sec = 0;
             EXPECT_EQ(model->getTotalTime(), std::string("00:00:0") + std::to_string(sec)) << sec;
             if(sec == 4){
-                working = false;
+                end();
             }
             sec++;
         }
@@ -82,7 +94,7 @@ TEST_F(TrainerModelTest, Phase){
             } else if(sec <= INH_TIME + PAUSE_AFTER_INH + EXH_TIME + PAUSE_AFTER_EXH + 1){
                 EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION) << sec;
             } else {
-                working = false;
+                end();
             }
         }
     } listener;
@@ -102,7 +114,7 @@ TEST_F(TrainerModelTest, PhaseTime){
             }
             EXPECT_EQ(model->getPhaseTime(), std::string("00:00:0") + std::to_string(curPhaseSec)) << sec;
             if(sec == INH_TIME + PAUSE_AFTER_INH + 1){
-                working = false;
+                end();
             }
             sec++;
             curPhaseSec--;

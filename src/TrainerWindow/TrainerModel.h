@@ -3,6 +3,7 @@
 #include <thread>
 #include <atomic>
 #include "ITrainerModel.h"
+#include "ITimer.h"
 
 namespace breathe_trainer {
     class TrainerModel: public ITrainerModel{
@@ -13,37 +14,32 @@ namespace breathe_trainer {
             EXHALATION,
             PAUSE_AFTER_EXHALATION
         };
-        const TimeSec THREAD_INTERVAL_MS = 100;
         const uint_fast8_t STR_PART_LEN = 2;
+
+        const ITimerPtr _timer;
+        const TimeSec _timerProgressInterval;
+
         ITrainMListWPtr _listenerPtr;
         TrainProfile _profile;
 
-        std::chrono::system_clock::time_point _startTime;
-        std::chrono::seconds _timeElapsedSec;
-        std::chrono::system_clock::time_point _startPhaseTime;
+        TimeSec _elapsedSec;
         InternalPhase _curPhase;
 
-        std::chrono::milliseconds _curPhaseMS;
-        std::chrono::seconds _curPhaseCurSec;
-        std::chrono::seconds _curPhaseTotalSec;
+        TimeMSec _curPhaseMS;
+        TimeSec _curPhaseCurSec;
+        TimeSec _curPhaseTotalSec;
 
-        std::thread _timerThread;
-        bool _threadStarted;
-        std::atomic_bool _threadWorking;
         uint_fast32_t _cycleNum;
 
-        void thread_func();
         template<class DurationIn, class FirstDuration, class...RestDurations>
         std::string formatDuration(DurationIn d);
-        void processTimerTick();
         void notifyListenerState();
         void setPhase();
     public:
-        explicit TrainerModel();
+        explicit TrainerModel(const ITimerPtr &timer, TimeMSec timerProgressInterval);
 
         void setProfile(const TrainProfile &profile) override;
 
-        ~TrainerModel();
         void start() override;
         void stop() override;
         bool isStarted() override;
@@ -57,6 +53,12 @@ namespace breathe_trainer {
         double getAmount() override;
 
         void setModelListener(const ITrainMListWPtr &ptr) override;
+
+        void onSecondPassed() override;
+
+        void onProgress() override;
+
+        void onStart() override;
 
         uint_fast32_t getCycleNum() override;
     };
