@@ -59,19 +59,19 @@ namespace breathe_trainer{
             switch(_curPhase){
                 case InternalPhase::INHALATION:
                     _curPhase = InternalPhase::PAUSE_AFTER_INHALATION;
-                    _curPhaseTotalSec = _profile.pauseTimeAfterInhalation;
+                    _curPhaseTotalSec = _curPauseTimeAfterInhalation;
                     break;
                 case InternalPhase::PAUSE_AFTER_INHALATION:
                     _curPhase = InternalPhase::EXHALATION;
-                    _curPhaseTotalSec = _profile.exhalationTime;
+                    _curPhaseTotalSec = _curExhalationTime;
                     break;
                 case InternalPhase::EXHALATION:
                     _curPhase = InternalPhase::PAUSE_AFTER_EXHALATION;
-                    _curPhaseTotalSec = _profile.pauseTimeAfterExhalation;
+                    _curPhaseTotalSec = _curPauseTimeAfterExhalation;
                     break;
                 case InternalPhase::PAUSE_AFTER_EXHALATION:
                     _curPhase = InternalPhase::INHALATION;
-                    _curPhaseTotalSec = _profile.inhalationTime;
+                    _curPhaseTotalSec = _curInhalationTime;
                     _cycleNum++;
                     break;
             }
@@ -93,6 +93,10 @@ namespace breathe_trainer{
 
     void TrainerModel::setProfile(const TrainProfile &profile) {
         _profile = profile;
+        _curInhalationTime = profile.inhalationTime.initial;
+        _curExhalationTime = profile.exhalationTime.initial;
+        _curPauseTimeAfterInhalation = profile.pauseTimeAfterInhalation.initial;
+        _curPauseTimeAfterExhalation = profile.pauseTimeAfterExhalation.initial;
     }
 
     uint_fast32_t TrainerModel::getCycleNum() {
@@ -122,7 +126,7 @@ namespace breathe_trainer{
         _elapsedSec = 0;
         _curPhaseMS = 0;
         _curPhaseCurSec = 0;
-        _curPhaseTotalSec = _profile.inhalationTime;
+        _curPhaseTotalSec = _curInhalationTime;
         notifyListenerState();
     }
 }

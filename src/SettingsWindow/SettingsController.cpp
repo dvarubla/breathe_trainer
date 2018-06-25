@@ -20,10 +20,7 @@ namespace breathe_trainer{
     ProfileData SettingsController::formProfileData(const std::string &name, const TrainProfile &profile) {
         return {
                 name,
-                profile.inhalationTime,
-                profile.pauseTimeAfterInhalation,
-                profile.exhalationTime,
-                profile.pauseTimeAfterExhalation
+                profile
         };
     }
 
@@ -44,12 +41,7 @@ namespace breathe_trainer{
     }
 
     void SettingsController::saveCurrent(int index, const std::string &name, const ProfileData &profileData) {
-        TrainProfile prof = {
-                profileData.inhalationTime,
-                profileData.pauseTimeAfterInhalation,
-                profileData.exhalationTime,
-                profileData.pauseTimeAfterExhalation,
-        };
+        TrainProfile prof = profileData.profile;
         if(name != profileData.name){
             _settingsWin->setProfile(index, profileData.name);
         }

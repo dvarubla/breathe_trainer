@@ -22,19 +22,24 @@ public:
     TrainProfile profile;
     shared_ptr<testing::NiceMock<TrainerModelListenerMock>> mock;
     TrainerModelTest(): profile{} {
-        profile.inhalationTime = INH_TIME;
-        profile.exhalationTime = EXH_TIME;
-        profile.pauseTimeAfterInhalation = PAUSE_AFTER_INH;
-        profile.pauseTimeAfterExhalation = PAUSE_AFTER_EXH;
+        profile.inhalationTime.initial = INH_TIME;
+        profile.exhalationTime.initial = EXH_TIME;
+        profile.pauseTimeAfterInhalation.initial = PAUSE_AFTER_INH;
+        profile.pauseTimeAfterExhalation.initial = PAUSE_AFTER_EXH;
         timer = make_shared<Timer>(1,1);
         model = make_shared<TrainerModel>(timer, 100);
         timer->setListener(model);
-        model->setProfile(profile);
         mock = make_shared<testing::NiceMock<TrainerModelListenerMock>>();
         model->setModelListener(mock);
     }
     template <typename T>
     void attachListener(T &l){
+        attachListenerAndSetProfile(l, profile);
+    }
+
+    template <typename T>
+    void attachListenerAndSetProfile(T &l, const TrainProfile &profile){
+        model->setProfile(profile);
         ON_CALL(*mock, onStateChanged()).WillByDefault(testing::Invoke(&l, &T::onStateChanged));
         l.model = model;
         model->start();

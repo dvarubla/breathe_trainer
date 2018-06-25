@@ -19,9 +19,18 @@ namespace breathe_trainer {
         QApplication::setFont(font);
 
         std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
-                {{5, 5, 5, 5}, "Начальный"},
-                {{6, 6, 6, 6}, "Продвинутый"},
-                {{10, 10, 10, 10}, "Водолаз"}
+                {
+                        {{5, 0, 0, 0}, {5, 0, 0, 0}, {5, 0, 0, 0}, {5, 0, 0, 0}},
+                        "Начальный"
+                },
+                {
+                        {{6, 0, 0, 0}, {6, 0, 0, 0}, {6, 0, 0, 0}, {6, 0, 0, 0}},
+                        "Продвинутый"
+                },
+                {
+                        {{10, 0, 0, 0}, {10, 0, 0, 0}, {10, 0, 0, 0}, {10, 0, 0, 0}},
+                        "Водолаз"
+                }
         };
         auto trainerWin = std::make_shared<TrainerWindow>();
         auto settingsWin = std::make_shared<SettingsWindow>(&*trainerWin);

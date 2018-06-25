@@ -6,10 +6,7 @@
 namespace breathe_trainer {
     struct ProfileData{
         std::string name;
-        TimeSec inhalationTime;
-        TimeSec pauseTimeAfterInhalation;
-        TimeSec exhalationTime;
-        TimeSec pauseTimeAfterExhalation;
+        TrainProfile profile;
     };
     class ISettingsWindow {
     public:

@@ -6,11 +6,17 @@
 #include <unordered_map>
 
 namespace breathe_trainer {
+    struct TrainProfileTimeItem{
+        TimeSec initial;
+        Cycle startCycle;
+        Cycle everyCycle;
+        TimeSec delta;
+    };
     struct TrainProfile {
-        TimeSec inhalationTime;
-        TimeSec pauseTimeAfterInhalation;
-        TimeSec exhalationTime;
-        TimeSec pauseTimeAfterExhalation;
+        TrainProfileTimeItem inhalationTime;
+        TrainProfileTimeItem pauseTimeAfterInhalation;
+        TrainProfileTimeItem exhalationTime;
+        TrainProfileTimeItem pauseTimeAfterExhalation;
     };
     typedef std::list<std::string> ProfileNameList;
     struct ProfileMapItem{

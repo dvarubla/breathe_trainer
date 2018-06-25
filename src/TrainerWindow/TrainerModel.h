@@ -29,7 +29,12 @@ namespace breathe_trainer {
         TimeSec _curPhaseCurSec;
         TimeSec _curPhaseTotalSec;
 
-        uint_fast32_t _cycleNum;
+        Cycle _cycleNum;
+
+        TimeSec _curInhalationTime;
+        TimeSec _curExhalationTime;
+        TimeSec _curPauseTimeAfterInhalation;
+        TimeSec _curPauseTimeAfterExhalation;
 
         template<class DurationIn, class FirstDuration, class...RestDurations>
         std::string formatDuration(DurationIn d);

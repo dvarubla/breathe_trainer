@@ -30,10 +30,25 @@ namespace breathe_trainer{
     void SettingsWindow::setFieldStrings(const ProfileData &data) {
         setTextEditsDisabled(false);
         ui->nameEdit->setText(QString::fromStdString(data.name));
-        ui->inhaleEdit->setValue(static_cast<int>(data.inhalationTime));
-        ui->exhaleEdit->setValue(static_cast<int>(data.exhalationTime));
-        ui->pauseInhaleEdit->setValue(static_cast<int>(data.pauseTimeAfterInhalation));
-        ui->pauseExhaleEdit->setValue(static_cast<int>(data.pauseTimeAfterExhalation));
+        ui->inhaleEdit->setValue(static_cast<int>(data.profile.inhalationTime.initial));
+        ui->exhaleEdit->setValue(static_cast<int>(data.profile.exhalationTime.initial));
+        ui->pauseInhaleEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterInhalation.initial));
+        ui->pauseExhaleEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterExhalation.initial));
+
+        ui->inhaleBeginEdit->setValue(static_cast<int>(data.profile.inhalationTime.startCycle));
+        ui->exhaleBeginEdit->setValue(static_cast<int>(data.profile.exhalationTime.startCycle));
+        ui->inhalePauseBeginEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterInhalation.startCycle));
+        ui->exhalePauseBeginEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterExhalation.startCycle));
+
+        ui->inhaleEveryEdit->setValue(static_cast<int>(data.profile.inhalationTime.everyCycle));
+        ui->exhaleEveryEdit->setValue(static_cast<int>(data.profile.exhalationTime.everyCycle));
+        ui->inhalePauseEveryEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterInhalation.everyCycle));
+        ui->exhalePauseEveryEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterExhalation.everyCycle));
+
+        ui->inhaleDeltaEdit->setValue(static_cast<int>(data.profile.inhalationTime.delta));
+        ui->exhaleDeltaEdit->setValue(static_cast<int>(data.profile.exhalationTime.delta));
+        ui->inhalePauseDeltaEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterInhalation.delta));
+        ui->exhalePauseDeltaEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterExhalation.delta));
     }
 
     void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
@@ -66,10 +81,32 @@ namespace breathe_trainer{
     ProfileData SettingsWindow::getProfileStrings() {
         return {
                 ui->nameEdit->text().toStdString(),
-                static_cast<TimeSec>(ui->inhaleEdit->value()),
-                static_cast<TimeSec>(ui->exhaleEdit->value()),
-                static_cast<TimeSec>(ui->pauseInhaleEdit->value()),
-                static_cast<TimeSec>(ui->pauseExhaleEdit->value())
+                {
+                    {
+                            static_cast<TimeSec>(ui->inhaleEdit->value()),
+                            static_cast<Cycle>(ui->inhaleBeginEdit->value()),
+                            static_cast<Cycle>(ui->inhaleEveryEdit->value()),
+                            static_cast<TimeSec>(ui->inhaleDeltaEdit->value())
+                    },
+                    {
+                            static_cast<TimeSec>(ui->exhaleEdit->value()),
+                            static_cast<Cycle>(ui->exhaleBeginEdit->value()),
+                            static_cast<Cycle>(ui->exhaleEveryEdit->value()),
+                            static_cast<TimeSec>(ui->exhaleDeltaEdit->value())
+                    },
+                    {
+                            static_cast<TimeSec>(ui->pauseInhaleEdit->value()),
+                            static_cast<Cycle>(ui->inhalePauseBeginEdit->value()),
+                            static_cast<Cycle>(ui->inhalePauseEveryEdit->value()),
+                            static_cast<TimeSec>(ui->inhalePauseDeltaEdit->value())
+                    },
+                    {
+                            static_cast<TimeSec>(ui->pauseExhaleEdit->value()),
+                            static_cast<Cycle>(ui->exhalePauseBeginEdit->value()),
+                            static_cast<Cycle>(ui->exhalePauseEveryEdit->value()),
+                            static_cast<TimeSec>(ui->exhalePauseDeltaEdit->value())
+                    }
+                }
         };
     }
 
@@ -123,16 +160,49 @@ namespace breathe_trainer{
     void SettingsWindow::setTextEditsDisabled(bool disabled) {
         if(disabled){
             ui->nameEdit->setText("");
+
             ui->inhaleEdit->setValue(1);
             ui->exhaleEdit->setValue(1);
             ui->pauseInhaleEdit->setValue(1);
             ui->pauseExhaleEdit->setValue(1);
+
+            ui->inhaleBeginEdit->setValue(0);
+            ui->exhaleBeginEdit->setValue(0);
+            ui->inhalePauseBeginEdit->setValue(0);
+            ui->exhalePauseBeginEdit->setValue(0);
+
+            ui->inhaleEveryEdit->setValue(0);
+            ui->exhaleEveryEdit->setValue(0);
+            ui->inhalePauseEveryEdit->setValue(0);
+            ui->exhalePauseEveryEdit->setValue(0);
+
+            ui->inhaleDeltaEdit->setValue(0);
+            ui->exhaleDeltaEdit->setValue(0);
+            ui->inhalePauseDeltaEdit->setValue(0);
+            ui->exhalePauseDeltaEdit->setValue(0);
         }
         ui->nameEdit->setDisabled(disabled);
+
         ui->inhaleEdit->setDisabled(disabled);
         ui->exhaleEdit->setDisabled(disabled);
         ui->pauseInhaleEdit->setDisabled(disabled);
         ui->pauseExhaleEdit->setDisabled(disabled);
+
+        ui->inhaleBeginEdit->setDisabled(disabled);
+        ui->exhaleBeginEdit->setDisabled(disabled);
+        ui->inhalePauseBeginEdit->setDisabled(disabled);
+        ui->exhalePauseBeginEdit->setDisabled(disabled);
+
+        ui->inhaleEveryEdit->setDisabled(disabled);
+        ui->exhaleEveryEdit->setDisabled(disabled);
+        ui->inhalePauseEveryEdit->setDisabled(disabled);
+        ui->exhalePauseEveryEdit->setDisabled(disabled);
+
+        ui->inhaleDeltaEdit->setDisabled(disabled);
+        ui->exhaleDeltaEdit->setDisabled(disabled);
+        ui->inhalePauseDeltaEdit->setDisabled(disabled);
+        ui->exhalePauseDeltaEdit->setDisabled(disabled);
+
     }
 
     void SettingsWindow::setButtonDisabled(ISettingsWindow::ButtonId id, bool disabled) {
