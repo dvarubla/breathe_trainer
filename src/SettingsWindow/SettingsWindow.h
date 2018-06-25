@@ -13,6 +13,7 @@ namespace breathe_trainer {
     private:
         ProfileListFragment _profListFrag;
         ISettWinListWPtr _settingsWinListener;
+        void setTextEditsDisabled(bool disabled);
     public slots:
         void onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev);
         void onSaveBtnClicked();
@@ -45,6 +46,10 @@ namespace breathe_trainer {
         void setSelectedIndex(int index) override;
 
         std::optional<std::string> showAddNameDialog() override;
+
+        void clearProfiles() override;
+
+        void setButtonDisabled(ButtonId id, bool disabled) override;
 
     private:
         Ui::SettingsWindow *ui;

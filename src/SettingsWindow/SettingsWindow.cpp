@@ -28,6 +28,7 @@ namespace breathe_trainer{
     }
 
     void SettingsWindow::setFieldStrings(const ProfileStrs &strs) {
+        setTextEditsDisabled(false);
         ui->nameEdit->setText(QString::fromStdString(strs.name));
         ui->inhaleEdit->setText(QString::fromStdString(strs.inhalationTime));
         ui->exhaleEdit->setText(QString::fromStdString(strs.exhalationTime));
@@ -112,5 +113,48 @@ namespace breathe_trainer{
 
     void SettingsWindow::onDeleteBtnClicked() {
         _settingsWinListener.lock()->onDeleteBtnClicked();
+    }
+
+    void SettingsWindow::clearProfiles() {
+        ui->profilesList->clear();
+        setTextEditsDisabled(true);
+    }
+
+    void SettingsWindow::setTextEditsDisabled(bool disabled) {
+        if(disabled){
+            ui->nameEdit->setText("");
+            ui->inhaleEdit->setText("");
+            ui->exhaleEdit->setText("");
+            ui->pauseInhaleEdit->setText("");
+            ui->pauseExhaleEdit->setText("");
+        }
+        ui->nameEdit->setDisabled(disabled);
+        ui->inhaleEdit->setDisabled(disabled);
+        ui->exhaleEdit->setDisabled(disabled);
+        ui->pauseInhaleEdit->setDisabled(disabled);
+        ui->pauseExhaleEdit->setDisabled(disabled);
+    }
+
+    void SettingsWindow::setButtonDisabled(ISettingsWindow::ButtonId id, bool disabled) {
+        switch(id){
+            case ButtonId::ADD:
+                ui->addBtn->setDisabled(disabled);
+                break;
+            case ButtonId::DELETE:
+                ui->deleteButton->setDisabled(disabled);
+                break;
+            case ButtonId::MOVE_UP:
+                ui->moveUpBtn->setDisabled(disabled);
+                break;
+            case ButtonId::MOVE_DOWN:
+                ui->moveDownBtn->setDisabled(disabled);
+                break;
+            case ButtonId::SAVE:
+                ui->saveButton->setDisabled(disabled);
+                break;
+            case ButtonId::CANCEL:
+                ui->cancelButton->setDisabled(disabled);
+                break;
+        }
     }
 }

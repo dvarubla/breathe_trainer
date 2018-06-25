@@ -14,6 +14,7 @@ namespace breathe_trainer {
         ProfileStrs formProfileStrs(const std::string &name, const TrainProfile &profile);
         void saveCurrent(int index, const std::string &name, const ProfileStrs &profileStrs);
         void initWindow();
+        void setUpDownButtons();
     public:
         explicit SettingsController(
                 const ISettWinPtr &settingsWin,

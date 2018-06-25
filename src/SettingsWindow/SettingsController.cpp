@@ -30,6 +30,7 @@ namespace breathe_trainer{
     void SettingsController::onPositionChanged(int index, const std::string &oldName, const ProfileStrs &profileStrs, const std::string &newName) {
         saveCurrent(index, oldName, profileStrs);
         _settingsWin->setFieldStrings(formProfileStrs(newName, _trainProfModel->getProfileByName(newName)));
+        setUpDownButtons();
     }
 
     void SettingsController::onSaveBtnClicked() {
@@ -59,9 +60,24 @@ namespace breathe_trainer{
     }
 
     void SettingsController::initWindow() {
-        _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
-        std::string firstName = *_trainProfModel->profileNamesBegin();
-        _settingsWin->setFieldStrings(formProfileStrs(firstName, _trainProfModel->getProfileByName(firstName)));
+        if(_trainProfModel->numProfiles() == 0){
+            _settingsWin->clearProfiles();
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::DELETE, true);
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, true);
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN, true);
+        } else {
+            _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+            std::string firstName = *_trainProfModel->profileNamesBegin();
+            _settingsWin->setFieldStrings(formProfileStrs(firstName, _trainProfModel->getProfileByName(firstName)));
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::DELETE, false);
+            if(_trainProfModel->numProfiles() != 1) {
+                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, false);
+                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN, false);
+            } else {
+                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, true);
+                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN, true);
+            }
+        }
     }
 
     void SettingsController::onMoveUpBtnClicked() {
@@ -69,6 +85,7 @@ namespace breathe_trainer{
         if(_trainProfModel->moveUp(_settingsWin->getSelectedProfileName())){
             initWindow();
             _settingsWin->setSelectedIndex(index - 1);
+            setUpDownButtons();
         }
     }
 
@@ -77,6 +94,7 @@ namespace breathe_trainer{
         if(_trainProfModel->moveDown(_settingsWin->getSelectedProfileName())){
             initWindow();
             _settingsWin->setSelectedIndex(index + 1);
+            setUpDownButtons();
         }
     }
 
@@ -84,7 +102,7 @@ namespace breathe_trainer{
         auto res = _settingsWin->showAddNameDialog();
         if(res){
             _trainProfModel->addProfile(*res);
-            _settingsWin->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
+            initWindow();
             _settingsWin->setSelectedIndex(static_cast<int>(_trainProfModel->numProfiles()) - 1);
         }
     }
@@ -92,5 +110,15 @@ namespace breathe_trainer{
     void SettingsController::onDeleteBtnClicked() {
         _trainProfModel->deleteProfile(_settingsWin->getSelectedProfileName());
         initWindow();
+    }
+
+    void SettingsController::setUpDownButtons() {
+        _settingsWin->setButtonDisabled(
+                ISettingsWindow::ButtonId::MOVE_UP, _settingsWin->getSelectedIndex() == 0
+        );
+        _settingsWin->setButtonDisabled(
+                ISettingsWindow::ButtonId::MOVE_DOWN,
+                static_cast<uint_fast32_t>(_settingsWin->getSelectedIndex()) == _trainProfModel->numProfiles() - 1
+        );
     }
 }
