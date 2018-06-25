@@ -21,6 +21,7 @@ namespace breathe_trainer {
         virtual double getAmount() = 0;
         virtual void setModelListener(const ITrainMListWPtr &ptr) = 0;
         virtual void setProfile(const TrainProfile &profile) = 0;
+        virtual uint_fast32_t getCycleNum() = 0;
     };
 
     typedef std::shared_ptr<ITrainerModel> ITrainMPtr;

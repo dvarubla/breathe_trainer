@@ -30,6 +30,7 @@ namespace breathe_trainer {
         std::thread _timerThread;
         bool _threadStarted;
         std::atomic_bool _threadWorking;
+        uint_fast32_t _cycleNum;
 
         void thread_func();
         template<class DurationIn, class FirstDuration, class...RestDurations>
@@ -56,5 +57,7 @@ namespace breathe_trainer {
         double getAmount() override;
 
         void setModelListener(const ITrainMListWPtr &ptr) override;
+
+        uint_fast32_t getCycleNum() override;
     };
 }

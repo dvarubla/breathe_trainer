@@ -48,6 +48,8 @@ namespace breathe_trainer {
 
         void clearProfiles() override;
 
+        void setCycleNum(const std::string &str) override;
+
     private:
         Ui::TrainerWindow *ui;
     };

@@ -25,6 +25,7 @@ namespace breathe_trainer{
                 _window->setPhase("Выдох");
                 break;
         }
+        _window->setCycleNum(std::to_string(_trainModel->getCycleNum()));
     }
 
     void TrainerController::init() {
@@ -66,12 +67,14 @@ namespace breathe_trainer{
         _window->setPhase("");
         _window->setPhaseTime("00:00:00");
         _window->setAmountColor(0, 0);
+        _window->setCycleNum("");
     }
 
     void TrainerController::clearWindow() {
         _window->setPhase("");
         _window->setTotalTime("00:00:00");
         _window->setPhaseTime("00:00:00");
+        _window->setCycleNum("");
     }
 
     void TrainerController::onEditPressed() {

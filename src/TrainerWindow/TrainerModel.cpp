@@ -53,6 +53,7 @@ namespace breathe_trainer{
     void TrainerModel::thread_func() {
         _startPhaseTime = _startTime = system_clock::now();
         _timeElapsedSec = seconds(0);
+        _cycleNum = 1;
         _curPhase = InternalPhase::INHALATION;
         _curPhaseTotalSec = seconds(_profile.inhalationTime);
         notifyListenerState();
@@ -121,6 +122,7 @@ namespace breathe_trainer{
                 case InternalPhase::PAUSE_AFTER_EXHALATION:
                     _curPhase = InternalPhase::INHALATION;
                     _curPhaseTotalSec = seconds(_profile.inhalationTime);
+                    _cycleNum++;
                     break;
             }
             _startPhaseTime = curTime;
@@ -142,5 +144,9 @@ namespace breathe_trainer{
 
     void TrainerModel::setProfile(const TrainProfile &profile) {
         _profile = profile;
+    }
+
+    uint_fast32_t TrainerModel::getCycleNum() {
+        return _cycleNum;
     }
 }

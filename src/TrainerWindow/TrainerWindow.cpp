@@ -87,4 +87,8 @@ namespace breathe_trainer {
         ui->startButton->setDisabled(true);
         ui->startButton->setDisabled(true);
     }
+
+    void TrainerWindow::setCycleNum(const std::string &str) {
+        ui->cycleNum->setText(QString::fromStdString(str));
+    }
 }
