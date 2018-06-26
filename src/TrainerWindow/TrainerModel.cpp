@@ -104,14 +104,11 @@ namespace breathe_trainer{
 
     void TrainerModel::setProfile(const TrainProfile &profile) {
         _profile = profile;
-        _curInhalationTime = profile.inhalationTime.initial;
-        _curExhalationTime = profile.exhalationTime.initial;
-        _curPauseTimeAfterInhalation = profile.pauseTimeAfterInhalation.initial;
-        _curPauseTimeAfterExhalation = profile.pauseTimeAfterExhalation.initial;
+        setInitialValsFromProfile();
     }
 
     uint_fast32_t TrainerModel::getCycleNum() {
-        return _cycleNum;
+        return _totalCycleNum;
     }
 
     TrainerModel::TrainerModel(const ITimerPtr &timer, TimeMSec timerProgressInterval)
@@ -132,19 +129,21 @@ namespace breathe_trainer{
     }
 
     void TrainerModel::onStart() {
-        _cycleNum = 1;
+        _totalCycleNum = 1;
+        _periodCycleNum = 1;
         _curPhase = InternalPhase::INHALATION;
         _elapsedSec = 0;
         _curPhaseMS = 0;
         _curPhaseCurSec = 0;
         _curPhaseTotalSec = _curInhalationTime;
+        _isRestActive = false;
         notifyListenerState();
     }
 
     void TrainerModel::addTimeAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime) {
         if(item.delta != 0){
-            if(item.startCycle != 0 && _cycleNum >= item.startCycle){
-                if(item.startCycle == _cycleNum || (item.everyCycle != 0 && (_cycleNum % item.everyCycle) == 0)){
+            if(item.startCycle != 0 && _totalCycleNum >= item.startCycle){
+                if(item.startCycle == _totalCycleNum || (item.everyCycle != 0 && (_periodCycleNum % item.everyCycle) == 0)){
                     curTime += item.delta;
                 }
             }
@@ -152,10 +151,44 @@ namespace breathe_trainer{
     }
 
     void TrainerModel::doAfterPhase() {
-        addTimeAfterPhase(_profile.inhalationTime, _curInhalationTime);
-        addTimeAfterPhase(_profile.exhalationTime, _curExhalationTime);
-        addTimeAfterPhase(_profile.pauseTimeAfterInhalation, _curPauseTimeAfterInhalation);
-        addTimeAfterPhase(_profile.pauseTimeAfterExhalation, _curPauseTimeAfterExhalation);
-        _cycleNum++;
+        if(!_isRestActive) {
+            addTimeAfterPhase(_profile.inhalationTime, _curInhalationTime);
+            addTimeAfterPhase(_profile.exhalationTime, _curExhalationTime);
+            addTimeAfterPhase(_profile.pauseTimeAfterInhalation, _curPauseTimeAfterInhalation);
+            addTimeAfterPhase(_profile.pauseTimeAfterExhalation, _curPauseTimeAfterExhalation);
+
+            if(_profile.restStart != 0 && _profile.restDur != 0 && (_periodCycleNum == _profile.restStart)){
+                _isRestActive = true;
+                _restCycleNum = 0;
+                _curInhalationTime = _profile.restInhalationTime;
+                _curExhalationTime = _profile.restExhalationTime;
+                _curPauseTimeAfterInhalation = _profile.restPauseTimeAfterInhalation;
+                _curPauseTimeAfterExhalation = _profile.restPauseTimeAfterExhalation;
+            }
+        }
+
+        _totalCycleNum++;
+        _periodCycleNum++;
+
+        if(_isRestActive){
+            if(_restCycleNum == _profile.restDur){
+                _isRestActive = false;
+                _periodCycleNum = 1;
+                setInitialValsFromProfile();
+            } else {
+                _restCycleNum++;
+            }
+        }
+    }
+
+    bool TrainerModel::isRestActive() {
+        return _isRestActive;
+    }
+
+    void TrainerModel::setInitialValsFromProfile() {
+        _curInhalationTime = _profile.inhalationTime.initial;
+        _curExhalationTime = _profile.exhalationTime.initial;
+        _curPauseTimeAfterInhalation = _profile.pauseTimeAfterInhalation.initial;
+        _curPauseTimeAfterExhalation = _profile.pauseTimeAfterExhalation.initial;
     }
 }

@@ -174,3 +174,103 @@ TEST_F(TrainerModelTest, PhaseWithIncrement2){
     } listener;
     attachListener(listener);
 }
+
+TEST_F(TrainerModelTest, Rest){
+    profile.exhalationTime.initial = 5;
+    profile.inhalationTime.initial = 6;
+    profile.pauseTimeAfterInhalation.initial = 2;
+    profile.pauseTimeAfterExhalation.initial = 3;
+    profile.restStart = 2;
+    profile.restDur = 2;
+    profile.restInhalationTime = 2;
+    profile.restExhalationTime = 2;
+    profile.restPauseTimeAfterInhalation = 1;
+    profile.restPauseTimeAfterExhalation = 1;
+    struct : public BaseListenerStruct{
+        void onStateChanged(){
+            static TimeSec sec = 0;
+            static bool isRectActive = false;
+            sec++;
+            if (model->getCycleNum() == 3) {
+                EXPECT_TRUE(model->isRestActive());
+                isRectActive = true;
+                sec = 0;
+            } else if (isRectActive && sec == 2) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION);
+            } else if (isRectActive && sec == 2 + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::PAUSE);
+            } else if (isRectActive && sec == 2 + 1 + 2) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::EXHALATION);
+            } else if (isRectActive && sec == 2 + 1 + 2 + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::PAUSE);
+            } else if (isRectActive && sec == 2 + 1 + 2 + 2) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION);
+            } else if (isRectActive && sec > 2 + 1 + 2 + 2) {
+                end();
+            }
+        }
+    } listener;
+    attachListener(listener);
+}
+
+TEST_F(TrainerModelTest, AfterRest){
+    profile.exhalationTime.initial = 5;
+    profile.inhalationTime.initial = 6;
+    profile.pauseTimeAfterInhalation.initial = 2;
+    profile.pauseTimeAfterExhalation.initial = 3;
+    profile.restStart = 2;
+    profile.restDur = 2;
+    profile.restInhalationTime = 2;
+    profile.restExhalationTime = 2;
+    profile.restPauseTimeAfterInhalation = 1;
+    profile.restPauseTimeAfterExhalation = 1;
+    struct : public BaseListenerStruct{
+        void onStateChanged(){
+            static TimeSec sec = 0;
+            static bool afterRest = false;
+            sec++;
+            if (model->getCycleNum() == 5) {
+                EXPECT_FALSE(model->isRestActive());
+                afterRest = true;
+                sec = 0;
+            } else if (afterRest && sec == 5) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION);
+            } else if (afterRest && sec > 5 + 1) {
+                end();
+            }
+        }
+    } listener;
+    attachListener(listener);
+}
+
+TEST_F(TrainerModelTest, SecondRest){
+    profile.exhalationTime.initial = 5;
+    profile.inhalationTime.initial = 6;
+    profile.pauseTimeAfterInhalation.initial = 2;
+    profile.pauseTimeAfterExhalation.initial = 3;
+    profile.restStart = 2;
+    profile.restDur = 2;
+    profile.restInhalationTime = 2;
+    profile.restExhalationTime = 2;
+    profile.restPauseTimeAfterInhalation = 1;
+    profile.restPauseTimeAfterExhalation = 1;
+    struct : public BaseListenerStruct{
+        void onStateChanged(){
+            static TimeSec sec = 0;
+            static bool isRectActive = false;
+            sec++;
+            if (model->getCycleNum() == 7) {
+                EXPECT_TRUE(model->isRestActive());
+                isRectActive = true;
+                sec = 0;
+            } else if (isRectActive && sec == 2) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::INHALATION);
+            } else if (isRectActive && sec == 2 + 1) {
+                EXPECT_EQ(model->getPhase(), breathe_trainer::Phase::PAUSE);
+            } else if (isRectActive && sec > 2 + 1 + 2 + 2) {
+                end();
+            }
+        }
+    } listener;
+    attachListener(listener);
+}

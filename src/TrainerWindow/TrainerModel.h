@@ -29,7 +29,10 @@ namespace breathe_trainer {
         TimeSec _curPhaseCurSec;
         TimeSec _curPhaseTotalSec;
 
-        Cycle _cycleNum;
+        Cycle _totalCycleNum;
+        Cycle _periodCycleNum;
+        Cycle _restCycleNum;
+        bool _isRestActive;
 
         TimeSec _curInhalationTime;
         TimeSec _curExhalationTime;
@@ -42,6 +45,7 @@ namespace breathe_trainer {
         void setPhase();
         void doAfterPhase();
         void addTimeAfterPhase(const TrainProfileTimeItem &item, TimeSec &curTime);
+        void setInitialValsFromProfile();
     public:
         explicit TrainerModel(const ITimerPtr &timer, TimeMSec timerProgressInterval);
 
@@ -66,6 +70,8 @@ namespace breathe_trainer {
         void onProgress() override;
 
         void onStart() override;
+
+        bool isRestActive() override;
 
         uint_fast32_t getCycleNum() override;
     };
