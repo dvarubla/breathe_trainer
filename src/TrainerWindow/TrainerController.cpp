@@ -14,18 +14,27 @@ namespace breathe_trainer{
     void TrainerController::onStateChanged() {
         _window->setTotalTime(_trainModel->getTotalTime());
         _window->setPhaseTime(_trainModel->getPhaseTime());
+        std::string phaseStr;
         switch(_trainModel->getPhase()){
             case Phase::INHALATION:
-                _window->setPhase("Вдох");
+                phaseStr = "Вдох";
                 break;
             case Phase::PAUSE:
-                _window->setPhase("Пауза");
+                phaseStr = "Пауза";
                 break;
             case Phase::EXHALATION:
-                _window->setPhase("Выдох");
+                phaseStr = "Выдох";
                 break;
         }
-        _window->setCycleNum(std::to_string(_trainModel->getCycleNum()));
+        if(_trainModel->isRestActive()){
+            phaseStr += " / Отдых";
+        }
+        _window->setPhase(phaseStr);
+        if(_trainModel->haveRest()){
+            _window->setCycleNum(std::to_string(_trainModel->getPeriodCycleNum()) + " (" + std::to_string(_trainModel->getCycleNum()) + ")");
+        } else {
+            _window->setCycleNum(std::to_string(_trainModel->getCycleNum()));
+        }
     }
 
     void TrainerController::init() {

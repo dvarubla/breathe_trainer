@@ -157,7 +157,7 @@ namespace breathe_trainer{
             addTimeAfterPhase(_profile.pauseTimeAfterInhalation, _curPauseTimeAfterInhalation);
             addTimeAfterPhase(_profile.pauseTimeAfterExhalation, _curPauseTimeAfterExhalation);
 
-            if(_profile.restStart != 0 && _profile.restDur != 0 && (_periodCycleNum == _profile.restStart)){
+            if(haveRest() && (_periodCycleNum == _profile.restStart)){
                 _isRestActive = true;
                 _restCycleNum = 0;
                 _curInhalationTime = _profile.restInhalationTime;
@@ -190,5 +190,13 @@ namespace breathe_trainer{
         _curExhalationTime = _profile.exhalationTime.initial;
         _curPauseTimeAfterInhalation = _profile.pauseTimeAfterInhalation.initial;
         _curPauseTimeAfterExhalation = _profile.pauseTimeAfterExhalation.initial;
+    }
+
+    uint_fast32_t TrainerModel::getPeriodCycleNum() {
+        return _periodCycleNum;
+    }
+
+    bool TrainerModel::haveRest() {
+        return _profile.restStart != 0 && _profile.restDur != 0;
     }
 }

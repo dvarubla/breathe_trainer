@@ -74,5 +74,9 @@ namespace breathe_trainer {
         bool isRestActive() override;
 
         uint_fast32_t getCycleNum() override;
+
+        uint_fast32_t getPeriodCycleNum() override;
+
+        bool haveRest() override;
     };
 }

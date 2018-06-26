@@ -23,7 +23,9 @@ namespace breathe_trainer {
         virtual void setModelListener(const ITrainMListWPtr &ptr) = 0;
         virtual void setProfile(const TrainProfile &profile) = 0;
         virtual uint_fast32_t getCycleNum() = 0;
+        virtual uint_fast32_t getPeriodCycleNum() = 0;
         virtual bool isRestActive() = 0;
+        virtual bool haveRest() = 0;
     };
 
     typedef std::shared_ptr<ITrainerModel> ITrainMPtr;

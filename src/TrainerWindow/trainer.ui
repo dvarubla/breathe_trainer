@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
+    <width>561</width>
     <height>415</height>
    </rect>
   </property>
@@ -70,6 +70,12 @@
         </item>
         <item row="2" column="1">
          <widget class="QLabel" name="phase">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Phase</string>
           </property>
@@ -226,7 +232,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>534</width>
+     <width>561</width>
      <height>20</height>
     </rect>
    </property>
