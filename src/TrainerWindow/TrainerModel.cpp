@@ -54,6 +54,10 @@ namespace breathe_trainer{
 
     void TrainerModel::setPhase() {
         if(_curPhaseTotalSec <= _curPhaseCurSec){
+            if(getPhase() != Phase::PAUSE) {
+                _curPhaseMS = _curPhaseTotalSec * 1000;
+                _listenerPtr.lock()->onProgressChanged();
+            }
             _curPhaseMS = 0;
             _curPhaseCurSec = 0;
             switch(_curPhase){

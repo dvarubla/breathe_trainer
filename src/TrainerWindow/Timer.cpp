@@ -37,14 +37,16 @@ namespace breathe_trainer{
             if(_threadWorking) {
                 milliseconds diff = duration_cast<milliseconds>(system_clock::now() - _startTime);
                 milliseconds diffForProgress = diff - _timeElapsedMSecForProgress;
-                if(diffForProgress >= _progressInterval){
+                while(diffForProgress >= _progressInterval){
                     _timerListener.lock()->onProgress();
                     _timeElapsedMSecForProgress += _progressInterval;
+                    diffForProgress -= _progressInterval;
                 }
                 milliseconds diffForSeconds = diff - _timeElapsedMSecForSeconds;
-                if(diffForSeconds >= _secondInterval){
+                while(diffForSeconds >= _secondInterval){
                     _timerListener.lock()->onSecondPassed();
                     _timeElapsedMSecForSeconds += _secondInterval;
+                    diffForSeconds -= _secondInterval;
                 }
             }
         }
