@@ -83,7 +83,7 @@ namespace breathe_trainer{
             return false;
         }
         TrainProfile emptyProfile = {
-                {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}
+                {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}, 0, 0, 1, 0, 1, 0
         };
         _profileNames.push_back(name);
         _profiles.insert(std::make_pair<>(name, ProfileMapItem{std::prev(_profileNames.end()), emptyProfile}));

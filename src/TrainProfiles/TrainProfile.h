@@ -17,6 +17,12 @@ namespace breathe_trainer {
         TrainProfileTimeItem pauseTimeAfterInhalation;
         TrainProfileTimeItem exhalationTime;
         TrainProfileTimeItem pauseTimeAfterExhalation;
+        Cycle restStart;
+        Cycle restDur;
+        TimeSec restInhalationTime;
+        TimeSec restPauseTimeAfterInhalation;
+        TimeSec restExhalationTime;
+        TimeSec restPauseTimeAfterExhalation;
     };
     typedef std::list<std::string> ProfileNameList;
     struct ProfileMapItem{

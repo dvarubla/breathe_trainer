@@ -50,6 +50,14 @@ namespace breathe_trainer{
         ui->exhaleDeltaEdit->setValue(static_cast<int>(data.profile.exhalationTime.delta));
         ui->inhalePauseDeltaEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterInhalation.delta));
         ui->exhalePauseDeltaEdit->setValue(static_cast<int>(data.profile.pauseTimeAfterExhalation.delta));
+
+        ui->restStartEdit->setValue(static_cast<int>(data.profile.restStart));
+        ui->restDurEdit->setValue(static_cast<int>(data.profile.restDur));
+        ui->restInhaleEdit->setValue(static_cast<int>(data.profile.restInhalationTime));
+        ui->restPauseInhaleEdit->setValue(static_cast<int>(data.profile.restPauseTimeAfterInhalation));
+        std::cout << data.profile.restPauseTimeAfterInhalation << " " << ui->restPauseInhaleEdit->value() << std::endl;
+        ui->restExhaleEdit->setValue(static_cast<int>(data.profile.restExhalationTime));
+        ui->restPauseExhaleEdit->setValue(static_cast<int>(data.profile.restPauseTimeAfterExhalation));
     }
 
     void SettingsWindow::onCurrentRowChanged(const QModelIndex& cur, const QModelIndex& prev) {
@@ -106,7 +114,13 @@ namespace breathe_trainer{
                             static_cast<Cycle>(ui->exhalePauseBeginEdit->value()),
                             static_cast<Cycle>(ui->exhalePauseEveryEdit->value()),
                             static_cast<TimeSec>(ui->exhalePauseDeltaEdit->value())
-                    }
+                    },
+                    static_cast<Cycle>(ui->restStartEdit->value()),
+                    static_cast<Cycle>(ui->restDurEdit->value()),
+                    static_cast<TimeSec>(ui->restInhaleEdit->value()),
+                    static_cast<TimeSec>(ui->restPauseInhaleEdit->value()),
+                    static_cast<TimeSec>(ui->restExhaleEdit->value()),
+                    static_cast<TimeSec>(ui->restPauseExhaleEdit->value()),
                 }
         };
     }
@@ -181,6 +195,13 @@ namespace breathe_trainer{
             ui->exhaleDeltaEdit->setValue(0);
             ui->inhalePauseDeltaEdit->setValue(0);
             ui->exhalePauseDeltaEdit->setValue(0);
+
+            ui->restStartEdit->setValue(0);
+            ui->restDurEdit->setValue(0);
+            ui->restInhaleEdit->setValue(1);
+            ui->restPauseInhaleEdit->setValue(1);
+            ui->restExhaleEdit->setValue(1);
+            ui->restPauseExhaleEdit->setValue(1);
         }
         ui->nameEdit->setDisabled(disabled);
 
@@ -204,6 +225,12 @@ namespace breathe_trainer{
         ui->inhalePauseDeltaEdit->setDisabled(disabled);
         ui->exhalePauseDeltaEdit->setDisabled(disabled);
 
+        ui->restStartEdit->setDisabled(disabled);
+        ui->restDurEdit->setDisabled(disabled);
+        ui->restInhaleEdit->setDisabled(disabled);
+        ui->restPauseInhaleEdit->setDisabled(disabled);
+        ui->restExhaleEdit->setDisabled(disabled);
+        ui->restPauseExhaleEdit->setDisabled(disabled);
     }
 
     void SettingsWindow::setButtonDisabled(ISettingsWindow::ButtonId id, bool disabled) {
