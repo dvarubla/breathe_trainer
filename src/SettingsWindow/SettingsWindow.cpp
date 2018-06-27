@@ -55,6 +55,7 @@ namespace breathe_trainer{
         ui->restDurEdit->setValue(static_cast<int>(data.profile.restDur));
         ui->restInhaleEdit->setValue(static_cast<int>(data.profile.restInhalationTime));
         ui->restExhaleEdit->setValue(static_cast<int>(data.profile.restExhalationTime));
+        ui->restPauseInhaleEdit->setValue(static_cast<int>(data.profile.restPauseTimeAfterInhalation));
         ui->restPauseExhaleEdit->setValue(static_cast<int>(data.profile.restPauseTimeAfterExhalation));
     }
 
