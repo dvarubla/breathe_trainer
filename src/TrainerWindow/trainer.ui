@@ -221,6 +221,16 @@
         <property name="text">
          <string>Редактировать</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../res/resources.qrc">
+          <normaloff>:/images/edit_button.png</normaloff>:/images/edit_button.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>14</width>
+          <height>14</height>
+         </size>
+        </property>
        </widget>
       </item>
      </layout>

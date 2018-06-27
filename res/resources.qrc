@@ -2,5 +2,12 @@
     <qresource>
         <file>images/play_button.png</file>
         <file>images/stop_button.png</file>
+        <file>images/edit_button.png</file>
+        <file>images/up_arrow_button.png</file>
+        <file>images/down_arrow_button.png</file>
+        <file>images/add_button.png</file>
+        <file>images/delete_button.png</file>
+        <file>images/save_button.png</file>
+        <file>images/cancel_button.png</file>
     </qresource>
 </RCC>
