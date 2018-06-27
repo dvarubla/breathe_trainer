@@ -80,13 +80,9 @@ namespace breathe_trainer{
             std::string firstName = *_trainProfModel->profileNamesBegin();
             _settingsWin->setFieldStrings(formProfileData(firstName, _trainProfModel->getProfileByName(firstName)));
             _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::DELETE, false);
-            if(_trainProfModel->numProfiles() != 1) {
-                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, false);
-                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN, false);
-            } else {
-                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, true);
-                _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN, true);
-            }
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_UP, true);
+            _settingsWin->setButtonDisabled(ISettingsWindow::ButtonId::MOVE_DOWN,
+                                                _trainProfModel->numProfiles() == 1);
         }
     }
 
