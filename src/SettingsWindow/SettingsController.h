@@ -2,6 +2,7 @@
 
 #include <TrainProfiles/ITrainProfilesModel.h>
 #include <TrainProfiles/IProfileModelsUpdater.h>
+#include <Settings/IWindowSettingsModel.h>
 #include "ISettingsWindow.h"
 #include "ISettingsController.h"
 
@@ -11,6 +12,7 @@ namespace breathe_trainer {
         ISettWinPtr _settingsWin;
         ITrainProfMEditPtr _trainProfModel;
         IProfMUpdaterPtr _profModelUpdater;
+        IWinSettMPtr _winSettModel;
         ProfileData formProfileData(const std::string &name, const TrainProfile &profile);
         bool saveCurrent(int index, const std::string &name, const ProfileData &profileData);
         void initWindow();
@@ -19,7 +21,8 @@ namespace breathe_trainer {
         explicit SettingsController(
                 const ISettWinPtr &settingsWin,
                 const ITrainProfMEditPtr &trainProfModel,
-                const IProfMUpdaterPtr &profModelUpdater
+                const IProfMUpdaterPtr &profModelUpdater,
+                const IWinSettMPtr &winSettModel
         );
         void onPositionChanged(int index, const std::string &oldName, const ProfileData &profileData, const std::string &newName) override;
         void onSaveBtnClicked() override;
@@ -33,6 +36,8 @@ namespace breathe_trainer {
         void onAddBtnClicked() override;
 
         void onDeleteBtnClicked() override;
+
+        void onResize(uint_fast32_t w, uint_fast32_t h) override;
 
     public:
         void show() override;

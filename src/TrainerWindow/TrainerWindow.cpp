@@ -1,5 +1,6 @@
 #include "TrainerWindow.h"
 #include "ITrainerModelListener.h"
+#include <QResizeEvent>
 
 namespace breathe_trainer {
 
@@ -11,6 +12,8 @@ namespace breathe_trainer {
         connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
         connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
     }
+
+
 
     void TrainerWindow::showWindow() {
         show();
@@ -90,5 +93,14 @@ namespace breathe_trainer {
 
     void TrainerWindow::setCycleNum(const std::string &str) {
         ui->cycleNum->setText(QString::fromStdString(str));
+    }
+
+    void TrainerWindow::resize(uint_fast32_t w, uint_fast32_t h) {
+        QMainWindow::resize(static_cast<int>(w), static_cast<int>(h));
+    }
+
+    void TrainerWindow::resizeEvent(QResizeEvent *event) {
+        QMainWindow::resizeEvent(event);
+        _listener.lock()->onResize(static_cast<uint_fast32_t>(event->size().width()), static_cast<uint_fast32_t>(event->size().height()));
     }
 }

@@ -2,13 +2,15 @@
 #include "SettingsController.h"
 
 namespace breathe_trainer{
-
     SettingsController::SettingsController(
             const ISettWinPtr &settingsWin,
             const ITrainProfMEditPtr &trainProfModel,
-            const IProfMUpdaterPtr &profModelUpdater
+            const IProfMUpdaterPtr &profModelUpdater,
+            const IWinSettMPtr &winSettModel
     ) :
-            _settingsWin(settingsWin), _trainProfModel(trainProfModel), _profModelUpdater(profModelUpdater){
+            _settingsWin(settingsWin), _trainProfModel(trainProfModel), _profModelUpdater(profModelUpdater), _winSettModel(winSettModel){
+        auto size = winSettModel->getSize(SETTINGS_WINDOW_NAME);
+        _settingsWin->resize(size.width, size.height);
     }
 
     void SettingsController::show() {
@@ -131,5 +133,9 @@ namespace breathe_trainer{
                 ISettingsWindow::ButtonId::MOVE_DOWN,
                 static_cast<uint_fast32_t>(_settingsWin->getSelectedIndex()) == _trainProfModel->numProfiles() - 1
         );
+    }
+
+    void SettingsController::onResize(uint_fast32_t w, uint_fast32_t h) {
+        _winSettModel->saveSize(SETTINGS_WINDOW_NAME, {w, h});
     }
 }

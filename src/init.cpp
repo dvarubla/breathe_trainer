@@ -11,6 +11,7 @@
 #include <QtCore/QtPlugin>
 #include <Settings/Settings.h>
 #include <Settings/SettingsHelper.h>
+#include <Settings/WindowSettingsModel.h>
 
 #ifdef STATIC
 Q_IMPORT_PLUGIN(QICOPlugin)
@@ -31,24 +32,25 @@ namespace breathe_trainer {
         auto settings = std::make_shared<Settings>();
 
         auto trainerWin = std::make_shared<TrainerWindow>();
-        auto settingsWin = std::make_shared<SettingsWindow>(&*trainerWin);
+        auto settingsWin = std::make_shared<SettingsWindow>(trainerWin.get());
 
-        auto profiles = settings->load();
+        auto profiles = settings->loadProfiles();
         auto trainProfModelMain = std::make_shared<TrainProfilesModel>(profiles);
         auto trainProfModelSettings = std::make_shared<TrainProfilesModel>(profiles);
+        auto winSettModel = std::make_shared<WindowSettingsModel>(settings->loadWindowData());
 
-        auto settingsHelper = std::make_shared<SettingsHelper>(settings, trainProfModelMain);
+        auto settingsHelper = std::make_shared<SettingsHelper>(settings, trainProfModelMain, winSettModel);
         settings->setListener(settingsHelper);
         QObject::connect(&app, SIGNAL(aboutToQuit()), settings.get(), SLOT(onAppExit()));
 
         auto profileModelUpdater = std::make_shared<ProfileModelUpdater>(trainProfModelSettings, trainProfModelMain);
-        auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings, profileModelUpdater);
+        auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings, profileModelUpdater, winSettModel);
         settingsWin->setSettingsWindowListener(settingsCtrl);
 
         auto timer = std::make_shared<Timer>(1000, 100);
         auto trainerModel = std::make_shared<TrainerModel>(timer, 100);
         timer->setListener(trainerModel);
-        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl);
+        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl, winSettModel);
         profileModelUpdater->setListener(trainCtrl);
         trainerModel->setModelListener(trainCtrl);
         trainerWin->setListener(trainCtrl);

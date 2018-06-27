@@ -30,6 +30,7 @@ namespace breathe_trainer {
         virtual void clearProfiles() = 0;
         virtual void setButtonDisabled(ButtonId id, bool disabled) = 0;
         virtual void showAddErrDialog(const std::string &name) = 0;
+        virtual void resize(uint_fast32_t w, uint_fast32_t h) = 0;
     };
     typedef std::shared_ptr<ISettingsWindow> ISettWinPtr;
 }

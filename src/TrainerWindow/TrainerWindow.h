@@ -24,6 +24,8 @@ namespace breathe_trainer {
         void startButtonClicked();
         void stopButtonClicked();
         void editButtonClicked();
+    protected:
+        void resizeEvent(QResizeEvent *event);
     public:
         void setListener(const ITrainWinListWPtr &listener) override;
 
@@ -50,6 +52,7 @@ namespace breathe_trainer {
 
         void setCycleNum(const std::string &str) override;
 
+        void resize(uint_fast32_t w, uint_fast32_t h) override;
     private:
         Ui::TrainerWindow *ui;
     };

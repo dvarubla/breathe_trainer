@@ -9,6 +9,7 @@ namespace breathe_trainer {
         Q_OBJECT
     private:
         static ProfileWithNameVect DEFAULT_SETTINGS;
+        static WHMap DEFAULT_SIZES;
         QSettings *_settings;
         ISettListWPtr _listener;
     public slots:
@@ -18,10 +19,14 @@ namespace breathe_trainer {
 
         ~Settings();
 
-        void save(const ProfileNameList &list, const ProfileMap &map) override;
+        void saveProfiles(const ProfileNameList &list, const ProfileMap &map) override;
 
-        ProfileWithNameVect load() override;
+        ProfileWithNameVect loadProfiles() override;
 
         void setListener(const ISettListWPtr &listener);
+
+        void saveWindowData(const WHMap &map) override;
+
+        WHMap loadWindowData() override;
     };
 }

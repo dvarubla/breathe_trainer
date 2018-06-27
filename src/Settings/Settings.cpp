@@ -16,7 +16,13 @@ namespace breathe_trainer{
             }
     };
 
-    void Settings::save(const ProfileNameList &list, const ProfileMap &map) {
+    WHMap Settings::DEFAULT_SIZES = {
+            {std::string(MAIN_WINDOW_NAME), {600, 400}},
+            {std::string(SETTINGS_WINDOW_NAME), {630, 400}}
+    };
+
+
+    void Settings::saveProfiles(const ProfileNameList &list, const ProfileMap &map) {
         _settings->clear();
         _settings->setValue("NumProfiles", static_cast<int>(list.size()));
         _settings->beginGroup("Profiles");
@@ -57,7 +63,7 @@ namespace breathe_trainer{
         _settings->endGroup();
     }
 
-    ProfileWithNameVect Settings::load() {
+    ProfileWithNameVect Settings::loadProfiles() {
         if(!_settings->contains("NumProfiles")){
             return DEFAULT_SETTINGS;
         } else {
@@ -119,5 +125,34 @@ namespace breathe_trainer{
 
     void Settings::setListener(const ISettListWPtr &listener) {
         _listener = listener;
+    }
+
+    void Settings::saveWindowData(const WHMap &map) {
+        _settings->beginGroup(QString::fromStdString(std::string(MAIN_WINDOW_NAME)));
+        _settings->setValue("Width", static_cast<int>(map.at(std::string(MAIN_WINDOW_NAME)).width));
+        _settings->setValue("Height",  static_cast<int>(map.at(std::string(MAIN_WINDOW_NAME)).height));
+        _settings->endGroup();
+        _settings->beginGroup(QString::fromStdString(std::string(SETTINGS_WINDOW_NAME)));
+        _settings->setValue("Width", static_cast<int>(map.at(std::string(SETTINGS_WINDOW_NAME)).width));
+        _settings->setValue("Height",  static_cast<int>(map.at(std::string(SETTINGS_WINDOW_NAME)).height));
+        _settings->endGroup();
+    }
+
+    WHMap Settings::loadWindowData() {
+        WHMap res;
+        _settings->beginGroup(QString::fromStdString(std::string(MAIN_WINDOW_NAME)));
+        res.insert(std::make_pair<>(MAIN_WINDOW_NAME, WidthHeight{
+            static_cast<uint_fast32_t>(_settings->value("Width", static_cast<int>(DEFAULT_SIZES[std::string(MAIN_WINDOW_NAME)].width)).toInt()),
+            static_cast<uint_fast32_t>(_settings->value("Height", static_cast<int>(DEFAULT_SIZES[std::string(MAIN_WINDOW_NAME)].height)).toInt())
+        }));
+        _settings->endGroup();
+
+        _settings->beginGroup(QString::fromStdString(std::string(SETTINGS_WINDOW_NAME)));
+        res.insert(std::make_pair<>(SETTINGS_WINDOW_NAME, WidthHeight{
+            static_cast<uint_fast32_t>(_settings->value("Width", static_cast<int>(DEFAULT_SIZES[std::string(SETTINGS_WINDOW_NAME)].width)).toInt()),
+            static_cast<uint_fast32_t>(_settings->value("Height", static_cast<int>(DEFAULT_SIZES[std::string(SETTINGS_WINDOW_NAME)].height)).toInt())
+        }));
+        _settings->endGroup();
+        return res;
     }
 }

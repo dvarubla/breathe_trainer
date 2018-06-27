@@ -6,9 +6,12 @@ namespace breathe_trainer{
             const ITrainMPtr &trainModel,
             const ITrainWinPtr &window,
             const ITrainProfMPtr &trainProfModel,
-            const ISettCtrlPtr &settingsCtrl
+            const ISettCtrlPtr &settingsCtrl,
+            const IWinSettMPtr &winSettModel
     )
-            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window), _settingsCtrl(settingsCtrl) {
+            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window), _settingsCtrl(settingsCtrl), _winSettModel(winSettModel) {
+        auto size = winSettModel->getSize(MAIN_WINDOW_NAME);
+        _window->resize(size.width, size.height);
     }
 
     void TrainerController::onStateChanged() {
@@ -100,5 +103,9 @@ namespace breathe_trainer{
         } else {
             _window->addProfiles(_trainProfModel->profileNamesBegin(), _trainProfModel->profileNamesEnd());
         }
+    }
+
+    void TrainerController::onResize(uint_fast32_t w, uint_fast32_t h) {
+        _winSettModel->saveSize(MAIN_WINDOW_NAME, {w, h});
     }
 }

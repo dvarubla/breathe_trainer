@@ -1,6 +1,7 @@
 #include <iostream>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
+#include <QResizeEvent>
 #include "SettingsWindow.h"
 
 namespace breathe_trainer{
@@ -258,5 +259,14 @@ namespace breathe_trainer{
     void SettingsWindow::showAddErrDialog(const std::string &name) {
         QMessageBox::warning(this, "Ошибка!", QString::fromStdString(std::string("Профиль с именем \"") + name + "\" уже существует"),
                              QMessageBox::Ok);
+    }
+
+    void SettingsWindow::resize(uint_fast32_t w, uint_fast32_t h) {
+        QMainWindow::resize(static_cast<int>(w), static_cast<int>(h));
+    }
+
+    void SettingsWindow::resizeEvent(QResizeEvent *event) {
+        QMainWindow::resizeEvent(event);
+        _settingsWinListener.lock()->onResize(static_cast<uint_fast32_t>(event->size().width()), static_cast<uint_fast32_t>(event->size().height()));
     }
 }
