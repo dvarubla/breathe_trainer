@@ -9,6 +9,7 @@ namespace breathe_trainer{
     public:
         virtual void saveProfiles(const ProfileNameList &list, const ProfileMap &map) = 0;
         virtual ProfileWithNameVect loadProfiles() = 0;
+        virtual ProfileWithNameVect getDefaultProfiles() = 0;
         virtual void saveWindowData(const WHMap &map) = 0;
         virtual WHMap loadWindowData() = 0;
     };

@@ -28,5 +28,7 @@ namespace breathe_trainer {
         void saveWindowData(const WHMap &map) override;
 
         WHMap loadWindowData() override;
+
+        ProfileWithNameVect getDefaultProfiles() override;
     };
 }

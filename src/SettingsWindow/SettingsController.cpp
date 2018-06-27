@@ -138,4 +138,8 @@ namespace breathe_trainer{
     void SettingsController::onResize(uint_fast32_t w, uint_fast32_t h) {
         _winSettModel->saveSize(SETTINGS_WINDOW_NAME, {w, h});
     }
+
+    void SettingsController::onCommit() {
+        initWindow();
+    }
 }

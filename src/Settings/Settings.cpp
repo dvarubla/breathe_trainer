@@ -155,4 +155,8 @@ namespace breathe_trainer{
         _settings->endGroup();
         return res;
     }
+
+    ProfileWithNameVect Settings::getDefaultProfiles() {
+        return DEFAULT_SETTINGS;
+    }
 }

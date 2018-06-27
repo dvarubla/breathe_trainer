@@ -7,9 +7,11 @@ namespace breathe_trainer{
             const ITrainWinPtr &window,
             const ITrainProfMPtr &trainProfModel,
             const ISettCtrlPtr &settingsCtrl,
-            const IWinSettMPtr &winSettModel
+            const IWinSettMPtr &winSettModel,
+            const ISettRestorerPtr &restorer
     )
-            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window), _settingsCtrl(settingsCtrl), _winSettModel(winSettModel) {
+            :_trainModel(trainModel), _trainProfModel(trainProfModel), _window(window),
+             _settingsCtrl(settingsCtrl), _winSettModel(winSettModel), _restorer(restorer) {
         auto size = winSettModel->getSize(MAIN_WINDOW_NAME);
         _window->resize(size.width, size.height);
     }
@@ -107,5 +109,9 @@ namespace breathe_trainer{
 
     void TrainerController::onResize(uint_fast32_t w, uint_fast32_t h) {
         _winSettModel->saveSize(MAIN_WINDOW_NAME, {w, h});
+    }
+
+    void TrainerController::onRestoreActClicked() {
+        _restorer->restoreDefaults();
     }
 }

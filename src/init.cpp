@@ -43,15 +43,16 @@ namespace breathe_trainer {
         settings->setListener(settingsHelper);
         QObject::connect(&app, SIGNAL(aboutToQuit()), settings.get(), SLOT(onAppExit()));
 
-        auto profileModelUpdater = std::make_shared<ProfileModelUpdater>(trainProfModelSettings, trainProfModelMain);
+        auto profileModelUpdater = std::make_shared<ProfileModelUpdater>(trainProfModelSettings, trainProfModelMain, settings);
         auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings, profileModelUpdater, winSettModel);
         settingsWin->setSettingsWindowListener(settingsCtrl);
 
         auto timer = std::make_shared<Timer>(1000, 100);
         auto trainerModel = std::make_shared<TrainerModel>(timer, 100);
         timer->setListener(trainerModel);
-        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl, winSettModel);
-        profileModelUpdater->setListener(trainCtrl);
+        auto trainCtrl = std::make_shared<TrainerController>(trainerModel, trainerWin, trainProfModelMain, settingsCtrl, winSettModel, profileModelUpdater);
+        profileModelUpdater->setFinalModelListener(trainCtrl);
+        profileModelUpdater->setTempModelListener(settingsCtrl);
         trainerModel->setModelListener(trainCtrl);
         trainerWin->setListener(trainCtrl);
         trainCtrl->init();

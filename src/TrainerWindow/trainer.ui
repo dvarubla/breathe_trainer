@@ -246,8 +246,26 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="settings">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <addaction name="setupProfiles"/>
+    <addaction name="resetProfiles"/>
+   </widget>
+   <addaction name="settings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="setupProfiles">
+   <property name="text">
+    <string>Настройка профилей</string>
+   </property>
+  </action>
+  <action name="resetProfiles">
+   <property name="text">
+    <string>Сброс профилей</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

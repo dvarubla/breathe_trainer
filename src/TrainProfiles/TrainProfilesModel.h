@@ -34,5 +34,7 @@ namespace breathe_trainer {
         bool moveUp(const std::string &str) override;
 
         uint_fast32_t numProfiles() override;
+
+        void init(const ProfileWithNameVect &profiles) override;
     };
 }

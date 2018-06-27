@@ -3,7 +3,7 @@
 #include "ISettingsWindowListener.h"
 
 namespace breathe_trainer{
-    class ISettingsController: public ISettingsWindowListener{
+    class ISettingsController: public ISettingsWindowListener, public IProfileModelUpdaterListener{
     public:
         virtual void show() = 0;
     };

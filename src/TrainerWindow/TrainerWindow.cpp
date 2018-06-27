@@ -11,9 +11,10 @@ namespace breathe_trainer {
         connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
         connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
         connect(ui->editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+
+        connect(ui->resetProfiles, SIGNAL(triggered()), this, SLOT(restoreClicked()));
+        connect(ui->setupProfiles, SIGNAL(triggered()), this, SLOT(editButtonClicked()));
     }
-
-
 
     void TrainerWindow::showWindow() {
         show();
@@ -102,5 +103,9 @@ namespace breathe_trainer {
     void TrainerWindow::resizeEvent(QResizeEvent *event) {
         QMainWindow::resizeEvent(event);
         _listener.lock()->onResize(static_cast<uint_fast32_t>(event->size().width()), static_cast<uint_fast32_t>(event->size().height()));
+    }
+
+    void TrainerWindow::restoreClicked() {
+        _listener.lock()->onRestoreActClicked();
     }
 }

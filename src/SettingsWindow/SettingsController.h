@@ -39,6 +39,8 @@ namespace breathe_trainer {
 
         void onResize(uint_fast32_t w, uint_fast32_t h) override;
 
+        void onCommit() override;
+
     public:
         void show() override;
     };

@@ -24,6 +24,7 @@ namespace breathe_trainer {
         void startButtonClicked();
         void stopButtonClicked();
         void editButtonClicked();
+        void restoreClicked();
     protected:
         void resizeEvent(QResizeEvent *event);
     public:

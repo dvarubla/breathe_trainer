@@ -8,11 +8,7 @@ namespace breathe_trainer{
     }
 
     TrainProfilesModel::TrainProfilesModel(const ProfileWithNameVect &profiles) {
-        std::for_each(profiles.begin(), profiles.end(), [this](auto i){
-            _profileNames.push_back(i.name);
-            _profiles.insert(std::make_pair<>(i.name, ProfileMapItem{std::prev(_profileNames.end()), i.profile}));
-            return i.name;
-        });
+        init(profiles);
     }
 
     ProfileNameList::const_iterator TrainProfilesModel::profileNamesBegin() {
@@ -92,5 +88,15 @@ namespace breathe_trainer{
 
     uint_fast32_t TrainProfilesModel::numProfiles() {
         return _profiles.size();
+    }
+
+    void TrainProfilesModel::init(const ProfileWithNameVect &profiles) {
+        _profileNames.clear();
+        _profiles.clear();
+        std::for_each(profiles.begin(), profiles.end(), [this](auto i){
+            _profileNames.push_back(i.name);
+            _profiles.insert(std::make_pair<>(i.name, ProfileMapItem{std::prev(_profileNames.end()), i.profile}));
+            return i.name;
+        });
     }
 }

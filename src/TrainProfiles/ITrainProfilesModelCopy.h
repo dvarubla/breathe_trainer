@@ -12,5 +12,6 @@ namespace breathe_trainer {
         virtual ProfileMap& profileMap() = 0;
         virtual ProfileNameList& profileList() = 0;
         virtual void copyModel(const ITrainProfMCopyPtr &other) = 0;
+        virtual void init(const ProfileWithNameVect &vector) = 0;
     };
 }

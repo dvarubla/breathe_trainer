@@ -8,7 +8,6 @@ namespace breathe_trainer {
     public:
         virtual void commit() = 0;
         virtual void rollback() = 0;
-        virtual void setListener(const IProfMUpdListWPtr &ptr) = 0;
     };
 
     typedef std::shared_ptr<IProfileModelsUpdater> IProfMUpdaterPtr;
