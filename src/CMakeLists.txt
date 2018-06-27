@@ -44,3 +44,8 @@ target_link_libraries(
         breathe_trainer
         BreatheTrainerL
 )
+
+if(DEFINED CROSS)
+add_custom_command(TARGET breathe_trainer POST_BUILD
+        COMMAND upx -9q $<TARGET_FILE:breathe_trainer>)
+endif()
