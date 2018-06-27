@@ -18,6 +18,7 @@ namespace breathe_trainer {
         virtual std::string getSelectedProfileName() = 0;
         virtual void clearProfiles() = 0;
         virtual void resize(uint_fast32_t w, uint_fast32_t h) = 0;
+        virtual bool showConfirmRestoreDialog() = 0;
     };
 
     typedef std::shared_ptr<ITrainerWindow> ITrainWinPtr;

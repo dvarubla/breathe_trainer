@@ -54,6 +54,9 @@ namespace breathe_trainer {
         void setCycleNum(const std::string &str) override;
 
         void resize(uint_fast32_t w, uint_fast32_t h) override;
+
+        bool showConfirmRestoreDialog() override;
+
     private:
         Ui::TrainerWindow *ui;
     };

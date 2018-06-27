@@ -1,6 +1,7 @@
 #include "TrainerWindow.h"
 #include "ITrainerModelListener.h"
 #include <QResizeEvent>
+#include <QtWidgets/QMessageBox>
 
 namespace breathe_trainer {
 
@@ -107,5 +108,17 @@ namespace breathe_trainer {
 
     void TrainerWindow::restoreClicked() {
         _listener.lock()->onRestoreActClicked();
+    }
+
+    bool TrainerWindow::showConfirmRestoreDialog() {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Точно сбросить профили?");
+        msgBox.setText("Точно сбросить профили?");
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, "Да");
+        msgBox.setButtonText(QMessageBox::No, "Нет");
+        return (msgBox.exec() == QMessageBox::Yes);
     }
 }

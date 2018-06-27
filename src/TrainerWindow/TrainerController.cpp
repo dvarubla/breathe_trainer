@@ -112,6 +112,8 @@ namespace breathe_trainer{
     }
 
     void TrainerController::onRestoreActClicked() {
-        _restorer->restoreDefaults();
+        if(_window->showConfirmRestoreDialog()) {
+            _restorer->restoreDefaults();
+        }
     }
 }
