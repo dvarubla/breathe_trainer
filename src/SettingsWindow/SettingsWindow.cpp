@@ -5,7 +5,7 @@
 #include "SettingsWindow.h"
 
 namespace breathe_trainer{
-    SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::SettingsWindow) {
+    SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(std::make_unique<Ui::SettingsWindow>()) {
         ui->setupUi(this);
         _profListFrag.setWidget(ui->profilesList);
         connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveBtnClicked()));
@@ -19,10 +19,6 @@ namespace breathe_trainer{
 
     void SettingsWindow::showWindow() {
         show();
-    }
-
-    SettingsWindow::~SettingsWindow() {
-        delete ui;
     }
 
     void SettingsWindow::addProfiles(ProfileNameList::const_iterator begin, ProfileNameList::const_iterator end) {

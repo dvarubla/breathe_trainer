@@ -26,7 +26,7 @@ namespace breathe_trainer {
         void editButtonClicked();
         void restoreClicked();
     protected:
-        void resizeEvent(QResizeEvent *event);
+        void resizeEvent(QResizeEvent *event) override;
     public:
         void setListener(const ITrainWinListWPtr &listener) override;
 
@@ -40,7 +40,6 @@ namespace breathe_trainer {
 
         void setStopButtonEnable(bool status) override;
 
-        ~TrainerWindow() override;
         void showWindow() override;
 
         void setAmountColor(double amount, uint_fast32_t color) override;
@@ -58,6 +57,6 @@ namespace breathe_trainer {
         bool showConfirmRestoreDialog() override;
 
     private:
-        Ui::TrainerWindow *ui;
+        std::unique_ptr<Ui::TrainerWindow> ui;
     };
 }

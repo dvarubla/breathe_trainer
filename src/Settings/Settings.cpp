@@ -111,12 +111,8 @@ namespace breathe_trainer{
     }
 
     Settings::Settings() {
-        _settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "BreatheTrainer", "BreatheTrainer");
+        _settings = std::make_unique<QSettings>(QSettings::IniFormat, QSettings::UserScope, "BreatheTrainer", "BreatheTrainer");
 
-    }
-
-    Settings::~Settings() {
-        delete _settings;
     }
 
     void Settings::onAppExit() {

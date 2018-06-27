@@ -5,7 +5,7 @@
 
 namespace breathe_trainer {
 
-    TrainerWindow::TrainerWindow() : QMainWindow(nullptr), ui(new Ui::TrainerWindow){
+    TrainerWindow::TrainerWindow() : QMainWindow(nullptr), ui(std::make_unique<Ui::TrainerWindow>()){
         ui->setupUi(this);
         _profListFrag.setWidget(ui->profilesList);
 
@@ -19,10 +19,6 @@ namespace breathe_trainer {
 
     void TrainerWindow::showWindow() {
         show();
-    }
-
-    TrainerWindow::~TrainerWindow() {
-        delete ui;
     }
 
     void TrainerWindow::setTotalTime(const std::string &str) {

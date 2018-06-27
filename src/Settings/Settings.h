@@ -10,14 +10,12 @@ namespace breathe_trainer {
     private:
         static ProfileWithNameVect DEFAULT_SETTINGS;
         static WHMap DEFAULT_SIZES;
-        QSettings *_settings;
+        std::unique_ptr<QSettings> _settings;
         ISettListWPtr _listener;
     public slots:
         void onAppExit();
     public:
         Settings();
-
-        ~Settings();
 
         void saveProfiles(const ProfileNameList &list, const ProfileMap &map) override;
 

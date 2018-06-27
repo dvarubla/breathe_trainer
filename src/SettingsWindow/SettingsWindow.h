@@ -23,11 +23,9 @@ namespace breathe_trainer {
         void onAddBtnClicked();
         void onDeleteBtnClicked();
     protected:
-        void resizeEvent(QResizeEvent *event);
+        void resizeEvent(QResizeEvent *event) override;
     public:
         explicit SettingsWindow(QWidget *parent);
-
-        ~SettingsWindow() override;
 
         void showWindow() override;
 
@@ -58,6 +56,6 @@ namespace breathe_trainer {
         void resize(uint_fast32_t w, uint_fast32_t h) override;
 
     private:
-        Ui::SettingsWindow *ui;
+        std::unique_ptr<Ui::SettingsWindow> ui;
     };
 }
