@@ -1,0 +1,6 @@
+set(CMAKE_SYSTEM_NAME Windows)
+set(CMAKE_C_COMPILER /usr/bin/i686-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER /usr/bin/i686-w64-mingw32-g++)
+
+set(EXTRA_CMAKE_CXX_FLAGS "-std=c++17 -mwindows -static -W -Wall -Wextra -pedantic -Werror -fno-strict-aliasing")
+set(CROSS "1")

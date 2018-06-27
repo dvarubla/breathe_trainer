@@ -8,6 +8,12 @@
 #include "TrainerWindow/TrainerController.h"
 #include "TrainerWindow/TrainerWindow.h"
 #include "SettingsWindow/SettingsController.h"
+#include <QtCore/QtPlugin>
+
+#ifdef STATIC
+Q_IMPORT_PLUGIN(QICOPlugin)
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
+#endif
 
 namespace breathe_trainer {
     int run(const QApplication &app) {
@@ -16,6 +22,8 @@ namespace breathe_trainer {
 
         QFont font("Arial");
         font.setStyleHint(QFont::SansSerif);
+        font.setPointSize(12);
+        font.setStyleStrategy(QFont::PreferAntialias);
         QApplication::setFont(font);
 
         std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
