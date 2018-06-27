@@ -130,6 +130,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Начать тренировку дыхания</string>
+          </property>
           <property name="styleSheet">
            <string notr="true">text-align: center;</string>
           </property>
@@ -158,6 +161,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Закончить тренировку дыхания</string>
           </property>
           <property name="styleSheet">
            <string notr="true">text-align: center;</string>
@@ -218,6 +224,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Редактировать профили</string>
+        </property>
         <property name="text">
          <string>Редактировать</string>
         </property>
@@ -255,7 +264,6 @@
    </widget>
    <addaction name="settings"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="setupProfiles">
    <property name="text">
     <string>Настройка профилей</string>

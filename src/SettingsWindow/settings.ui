@@ -28,6 +28,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Сохранить изменения</string>
+        </property>
         <property name="styleSheet">
          <string notr="true">text-align:center</string>
         </property>
@@ -53,6 +56,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Отменить изменения</string>
         </property>
         <property name="styleSheet">
          <string notr="true">text-align:center</string>
@@ -87,6 +93,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Переместить профиль вверх</string>
+        </property>
         <property name="styleSheet">
          <string notr="true">text-align: center; padding: 4px;</string>
         </property>
@@ -106,6 +115,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Переместить профиль вниз</string>
         </property>
         <property name="styleSheet">
          <string notr="true">text-align: center; padding: 4px;</string>
@@ -127,6 +139,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Удалить профиль</string>
+        </property>
         <property name="styleSheet">
          <string notr="true">text-align: center; padding: 4px;</string>
         </property>
@@ -147,6 +162,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Добавить профиль</string>
+        </property>
         <property name="styleSheet">
          <string notr="true">text-align: center; padding: 4px;</string>
         </property>
@@ -164,7 +182,7 @@
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -182,7 +200,11 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="nameEdit"/>
+         <widget class="QLineEdit" name="nameEdit">
+          <property name="toolTip">
+           <string>Название профиля в списке</string>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_3">
@@ -196,6 +218,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="inhaleEdit">
+          <property name="toolTip">
+           <string>Время вдоха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -216,6 +241,9 @@
         </item>
         <item row="2" column="1">
          <widget class="QSpinBox" name="exhaleEdit">
+          <property name="toolTip">
+           <string>Время выдоха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -236,6 +264,9 @@
         </item>
         <item row="3" column="1">
          <widget class="QSpinBox" name="pauseInhaleEdit">
+          <property name="toolTip">
+           <string>Пауза после вдоха в секундах</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -256,6 +287,9 @@
         </item>
         <item row="4" column="1">
          <widget class="QSpinBox" name="pauseExhaleEdit">
+          <property name="toolTip">
+           <string>Пауза после выдоха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -290,6 +324,9 @@
         </item>
         <item row="0" column="1">
          <widget class="QSpinBox" name="restStartEdit">
+          <property name="toolTip">
+           <string>После скольки циклов начинается отдых</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -317,6 +354,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="restDurEdit">
+          <property name="toolTip">
+           <string>Сколько циклов длится отдых</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -343,6 +383,9 @@
         </item>
         <item row="2" column="1">
          <widget class="QSpinBox" name="restInhaleEdit">
+          <property name="toolTip">
+           <string>Вдох во время отдыха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -369,6 +412,9 @@
         </item>
         <item row="3" column="1">
          <widget class="QSpinBox" name="restExhaleEdit">
+          <property name="toolTip">
+           <string>Выдох во время отдыха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -395,6 +441,9 @@
         </item>
         <item row="4" column="1">
          <widget class="QSpinBox" name="restPauseInhaleEdit">
+          <property name="toolTip">
+           <string>Задержка вдоха во время отдыха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -421,6 +470,9 @@
         </item>
         <item row="5" column="1">
          <widget class="QSpinBox" name="restPauseExhaleEdit">
+          <property name="toolTip">
+           <string>Задержка выдоха во время отдыха, в секундах</string>
+          </property>
           <property name="minimum">
            <number>0</number>
           </property>
@@ -470,6 +522,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>На сколько секунд увеличивать паузу после выдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -483,6 +538,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Периодичность увеличения для выдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -495,6 +553,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>На сколько секунд увеличивать выдох</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -522,6 +583,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Начиная с какого цикла увеличивать паузу после вдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -538,6 +602,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Периодичность увеличения для паузы после вдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -550,6 +617,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>На сколько секунд увеличивать паузу после вдоха</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -577,6 +647,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Начиная с какого цикла увеличивать паузу после выдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -592,6 +665,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Периодичность увеличения для паузы после выдоха</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -648,6 +724,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Начиная с какого цикла увеличивать вдох</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -664,6 +743,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Периодичность увеличения для вдоха</string>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -676,6 +758,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>На сколько секунд увеличивать вдох</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -715,6 +800,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Начиная с какого цикла увеличивать выдох</string>
           </property>
           <property name="maximum">
            <number>999</number>
@@ -793,7 +881,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
   <include location="../../res/resources.qrc"/>
