@@ -34,20 +34,18 @@ namespace breathe_trainer{
         _timerListener.lock()->onStart();
         while(_threadWorking) {
             std::this_thread::sleep_for(std::chrono::milliseconds(_progressInterval));
-            if(_threadWorking) {
-                milliseconds diff = duration_cast<milliseconds>(system_clock::now() - _startTime);
-                milliseconds diffForProgress = diff - _timeElapsedMSecForProgress;
-                while(diffForProgress >= _progressInterval){
-                    _timerListener.lock()->onProgress();
-                    _timeElapsedMSecForProgress += _progressInterval;
-                    diffForProgress -= _progressInterval;
-                }
-                milliseconds diffForSeconds = diff - _timeElapsedMSecForSeconds;
-                while(diffForSeconds >= _secondInterval){
-                    _timerListener.lock()->onSecondPassed();
-                    _timeElapsedMSecForSeconds += _secondInterval;
-                    diffForSeconds -= _secondInterval;
-                }
+            milliseconds diff = duration_cast<milliseconds>(system_clock::now() - _startTime);
+            milliseconds diffForProgress = diff - _timeElapsedMSecForProgress;
+            while(_threadWorking && diffForProgress >= _progressInterval){
+                _timerListener.lock()->onProgress();
+                _timeElapsedMSecForProgress += _progressInterval;
+                diffForProgress -= _progressInterval;
+            }
+            milliseconds diffForSeconds = diff - _timeElapsedMSecForSeconds;
+            while(_threadWorking && diffForSeconds >= _secondInterval){
+                _timerListener.lock()->onSecondPassed();
+                _timeElapsedMSecForSeconds += _secondInterval;
+                diffForSeconds -= _secondInterval;
             }
         }
     }
@@ -63,5 +61,9 @@ namespace breathe_trainer{
 
     bool Timer::isWorking() {
         return _threadWorking;
+    }
+
+    void Timer::setStop() {
+        _threadWorking = false;
     }
 }

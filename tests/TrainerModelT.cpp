@@ -42,10 +42,11 @@ public:
         model->setProfile(profile);
         ON_CALL(*mock, onStateChanged()).WillByDefault(testing::Invoke(&l, &T::onStateChanged));
         l.model = model;
-        model->start();
         l.threadPromise = std::make_shared<std::promise<void>>();
         l.mainPromise = std::make_shared<std::promise<void>>();
+        model->start();
         l.threadPromise->get_future().get();
+        timer->setStop();
         l.mainPromise->set_value();
         model->stop();
     }

@@ -24,6 +24,7 @@ namespace breathe_trainer {
         void setListener(const ITimerListWPtr &timerListener);
         void start() override;
         void stop() override;
+        void setStop() override;
         bool isWorking() override;
     };
 }

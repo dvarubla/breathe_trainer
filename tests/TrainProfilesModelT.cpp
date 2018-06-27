@@ -12,14 +12,14 @@ class TrainProfilesModelTest: public ::testing::Test {
 public:
     shared_ptr<TrainProfilesModel> model;
     TrainProfilesModelTest(){
-        std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
+        std::vector<breathe_trainer::ProfileWithName> profiles = {
                 {{}, "pr1"},
                 {{}, "pr2"},
                 {{}, "pr3"},
                 {{}, "pr4"}
         };
-        profiles[0].profile.inhalationTime = 2;
-        profiles[1].profile.inhalationTime = 10;
+        profiles[0].profile.inhalationTime.initial = 2;
+        profiles[1].profile.inhalationTime.initial = 10;
         model = make_shared<TrainProfilesModel>(profiles);
     }
 };
@@ -33,21 +33,21 @@ TEST_F(TrainProfilesModelTest, DeleteName){
 }
 
 TEST_F(TrainProfilesModelTest, ReadProfiles){
-    EXPECT_EQ(model->getProfileByName("pr2").inhalationTime, 10);
+    EXPECT_EQ(model->getProfileByName("pr2").inhalationTime.initial, 10);
 }
 
 TEST_F(TrainProfilesModelTest, ChangeProfileThanRead){
     TrainProfile t = {};
-    t.inhalationTime = 7;
+    t.inhalationTime.initial = 7;
     model->setProfile("pr2", t, "pr2");
-    EXPECT_EQ(model->getProfileByName("pr2").inhalationTime, 7);
+    EXPECT_EQ(model->getProfileByName("pr2").inhalationTime.initial, 7);
 }
 
 TEST_F(TrainProfilesModelTest, ChangeProfileNameThanRead){
     TrainProfile t = {};
-    t.inhalationTime = 7;
-    model->setProfile("pr3", t, "pr2");
-    EXPECT_EQ(model->getProfileByName("pr3").inhalationTime, 7);
+    t.inhalationTime.initial = 7;
+    model->setProfile("prX", t, "pr2");
+    EXPECT_EQ(model->getProfileByName("prX").inhalationTime.initial, 7);
 }
 
 TEST_F(TrainProfilesModelTest, MoveDown){
