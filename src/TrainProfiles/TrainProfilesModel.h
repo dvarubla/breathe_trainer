@@ -19,7 +19,7 @@ namespace breathe_trainer {
 
         ProfileNameList &profileList() override;
 
-        explicit TrainProfilesModel(const std::vector<ProfileWithName> &profiles);
+        explicit TrainProfilesModel(const ProfileWithNameVect &profiles);
 
         bool setProfile(const std::string &str, const TrainProfile &prof, const std::string &oldStr) override;
 

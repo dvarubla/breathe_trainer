@@ -8,10 +8,6 @@
 namespace breathe_trainer {
     class ITrainProfilesModel {
     public:
-        struct ProfileWithName {
-            TrainProfile profile;
-            std::string name;
-        };
         virtual ProfileNameList::const_iterator profileNamesBegin() = 0;
         virtual ProfileNameList::const_iterator profileNamesEnd() = 0;
         virtual TrainProfile getProfileByName(const std::string &name) = 0;

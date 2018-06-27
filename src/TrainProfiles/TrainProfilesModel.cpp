@@ -7,7 +7,7 @@ namespace breathe_trainer{
         return _profiles[str].profile;
     }
 
-    TrainProfilesModel::TrainProfilesModel(const std::vector<TrainProfilesModel::ProfileWithName> &profiles) {
+    TrainProfilesModel::TrainProfilesModel(const ProfileWithNameVect &profiles) {
         std::for_each(profiles.begin(), profiles.end(), [this](auto i){
             _profileNames.push_back(i.name);
             _profiles.insert(std::make_pair<>(i.name, ProfileMapItem{std::prev(_profileNames.end()), i.profile}));

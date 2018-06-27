@@ -9,6 +9,8 @@
 #include "TrainerWindow/TrainerWindow.h"
 #include "SettingsWindow/SettingsController.h"
 #include <QtCore/QtPlugin>
+#include <Settings/Settings.h>
+#include <Settings/SettingsHelper.h>
 
 #ifdef STATIC
 Q_IMPORT_PLUGIN(QICOPlugin)
@@ -26,25 +28,18 @@ namespace breathe_trainer {
         font.setStyleStrategy(QFont::PreferAntialias);
         QApplication::setFont(font);
 
-        std::vector<ITrainProfilesModel::ProfileWithName> profiles = {
-                {
-                        {{5, 0, 0, 0}, {5, 0, 0, 0}, {5, 0, 0, 0}, {5, 0, 0, 0}, 0, 0, 1, 0, 1, 0},
-                        "Начальный"
-                },
-                {
-                        {{6, 0, 0, 0}, {6, 0, 0, 0}, {6, 0, 0, 0}, {6, 0, 0, 0}, 0, 0, 1, 0, 1, 0},
-                        "Продвинутый"
-                },
-                {
-                        {{10, 0, 0, 0}, {10, 0, 0, 0}, {10, 0, 0, 0}, {10, 0, 0, 0}, 0, 0, 1, 0, 1, 0},
-                        "Водолаз"
-                }
-        };
+        auto settings = std::make_shared<Settings>();
+
         auto trainerWin = std::make_shared<TrainerWindow>();
         auto settingsWin = std::make_shared<SettingsWindow>(&*trainerWin);
 
+        auto profiles = settings->load();
         auto trainProfModelMain = std::make_shared<TrainProfilesModel>(profiles);
         auto trainProfModelSettings = std::make_shared<TrainProfilesModel>(profiles);
+
+        auto settingsHelper = std::make_shared<SettingsHelper>(settings, trainProfModelMain);
+        settings->setListener(settingsHelper);
+        QObject::connect(&app, SIGNAL(aboutToQuit()), settings.get(), SLOT(onAppExit()));
 
         auto profileModelUpdater = std::make_shared<ProfileModelUpdater>(trainProfModelSettings, trainProfModelMain);
         auto settingsCtrl = std::make_shared<SettingsController>(settingsWin, trainProfModelSettings, profileModelUpdater);

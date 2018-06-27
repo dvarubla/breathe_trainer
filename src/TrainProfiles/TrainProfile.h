@@ -2,7 +2,7 @@
 
 #include <TrainerCommon.h>
 #include <list>
-#include <map>
+#include <vector>
 #include <unordered_map>
 
 namespace breathe_trainer {
@@ -30,4 +30,9 @@ namespace breathe_trainer {
         TrainProfile profile;
     };
     typedef std::unordered_map<std::string, ProfileMapItem> ProfileMap;
+    struct ProfileWithName {
+        TrainProfile profile;
+        std::string name;
+    };
+    typedef std::vector<ProfileWithName> ProfileWithNameVect;
 }
