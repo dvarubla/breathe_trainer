@@ -14,6 +14,10 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" AND NOT DEFINED CROSS)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=undefined -fsanitize=leak")
 endif()
 
+if(DEFINED BITS32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+endif()
+
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -O3 -flto")
 endif()
