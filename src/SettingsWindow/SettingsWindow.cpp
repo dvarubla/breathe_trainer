@@ -7,6 +7,7 @@
 namespace breathe_trainer{
     SettingsWindow::SettingsWindow(QWidget *parent): QMainWindow(parent), ui(std::make_unique<Ui::SettingsWindow>()) {
         ui->setupUi(this);
+        ui->tabWidget->setCurrentIndex(0);
         _profListFrag.setWidget(ui->profilesList);
         connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveBtnClicked()));
         connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelBtnClicked()));
